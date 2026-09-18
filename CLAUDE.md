@@ -1,13 +1,22 @@
-# Tenu — Instructions pour Claude Code
+# TenuXpector — Instructions pour Claude Code
 
 ## Méthode : AI-DLC
 
-Quand l'utilisateur écrit « Using AI-DLC » ou « Avec AI-DLC », lis et suis
-`.aidlc/aidlc-rules/aws-aidlc-rules/core-workflow.md` pour démarrer le flux.
-Les artefacts générés vont dans `aidlc-docs/`.
+Ce dépôt utilise le moteur AI-DLC 2.9.0, installé sous `.claude/` (skills, agents,
+hooks, capteurs) et piloté par la commande `aidlc`.
+
+Quand l'utilisateur écrit « Using AI-DLC » ou « Avec AI-DLC », invoque la skill
+`aidlc` (équivalent de `/aidlc`) pour démarrer ou reprendre le flux.
+La méthode est éditée dans `aidlc/spaces/default/memory/` (`org.md`, `team.md`,
+`project.md`, `phases/*.md`), jamais dans `.claude/rules/aidlc.md` qui n'est
+qu'un pointeur.
+
+Les artefacts générés vont dans `aidlc/spaces/default/intents/<slug>-<id8>/`,
+jamais dans `aidlc-docs/` (convention de l'ancien ruleset 1.0.1, non utilisée ici).
+Le code applicatif va à la racine du dépôt.
 
 Entrées de référence, à lire au début de l'Inception :
-- `docs/exigences-tenu.md` : exigences précises. **Fait foi.**
+- `docs/exigences-tenuxpector.md` : exigences précises. **Fait foi.**
 - `docs/specifications.md` : cadrage d'origine, pour le contexte et le « pourquoi ».
 
 Pendant la Construction, ne lis que la section de l'unité en cours (U0 à U6) et les

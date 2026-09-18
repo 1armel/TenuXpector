@@ -1,38 +1,45 @@
 {
-  "mcpServers": {
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
-      }
-    },
-    "aws-mcp": {
-      "command": "uvx",
-      "args": [
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata",
-        "AWS_REGION=us-east-1"
-      ]
-    },
-    "aws-pricing": {
-      "command": "uvx",
-      "args": [
-        "awslabs.aws-pricing-mcp-server@latest"
-      ]
-    },
-    "aws-iac": {
-      "command": "uvx",
-      "args": [
-        "awslabs.aws-iac-mcp-server@latest"
-      ]
-    },
-    "aws-serverless": {
-      "command": "uvx",
-      "args": [
-        "awslabs.aws-serverless-mcp-server@latest"
-      ]
+    "mcpServers": {
+        "Confluence": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@zereight/mcp-confluence"
+            ],
+            "env": {
+                "CONFLUENCE_URL": "https://clemios.atlassian.net",
+                "JIRA_URL": "https://clemios.atlassian.net",
+                "CONFLUENCE_API_MAIL": "armel.kamdem@clemios.com",
+                "CONFLUENCE_API_KEY": "${CONFLUENCE_API_KEY}",
+                "CONFLUENCE_IS_CLOUD": "true"
+            }
+        },
+        "context7": {
+        "command": "npx",
+        "args": [
+            "-y",
+            "@upstash/context7-mcp@latest"
+        ],
+        "env": {
+            "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+        }
+        },
+        "atlassian-rovo": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "mcp-remote",
+                "https://mcp.atlassian.com/v1/mcp"
+            ]
+        },
+        "office-powerpoint": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "office-powerpoint-mcp-server",
+                "ppt_mcp_server"
+            ],
+            "env": {}
+        }
     }
-  }
 }

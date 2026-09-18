@@ -1,0 +1,23 @@
+[
+  {
+    "uuid": "01a0abe7-48cb-7a28-9a2a-d4f3695bb1d8",
+    "slug": "caisse-hors-ligne",
+    "dirName": "260916-caisse-hors-ligne",
+    "scope": "spec-driven-dual-target-ops",
+    "status": "archived"
+  },
+  {
+    "uuid": "01a0abec-bf5a-7e48-9f67-920190939ba6",
+    "slug": "caisse-hors-ligne",
+    "dirName": "260916-caisse-hors-ligne-2",
+    "scope": "spec-driven-dual-target-ops",
+    "status": "archived"
+  },
+  {
+    "uuid": "01a0abf0-fdd1-7b22-924c-a03712183806",
+    "slug": "caisse-hors-ligne",
+    "dirName": "260916-caisse-hors-ligne-3",
+    "scope": "spec-driven-dual-target-ops",
+    "status": "in-flight"
+  }
+]

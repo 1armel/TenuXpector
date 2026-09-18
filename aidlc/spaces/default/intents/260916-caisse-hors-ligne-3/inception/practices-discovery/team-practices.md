@@ -1,9 +1,8 @@
-# Team-Level Rules
+# Pratiques de l'équipe — TenuXpector
 
-> This team's affirmed practices and corrections. Loaded after `org.md` as
-> strict-additive guidance; contradictions with broader policy are rejected.
-> Populated by the practices-discovery affirmation gate. Edit at the gate,
-> not directly.
+> Pratiques affirmées à l'entretien de découverte des pratiques (Q1 à Q6, résumé consolidé confirmé),
+> intégrées par le lead à partir de son brouillon et des contributions qualité, développeur et
+> sécurité. Développeur seul, projet greenfield. Détail des sources et des arbitrages : `evidence.md`.
 
 ## Way of Working
 
@@ -39,10 +38,6 @@
 - **Contrôle ENF-14** : il vise les fichiers de code par une liste d'inclusion (`apps/`, `packages/`, fichiers de configuration à la racine). Le seul chemin exclu est le seed, désigné par son chemin exact. Le script ne contient pas le mot en clair et échoue si le périmètre inclus est vide. [Q4, contribution sécurité]
 - **Intégration continue** : une CI GitHub minimale (installation à dépendances figées, puis typecheck, lint, tests) est ajoutée avant l'installation en boutique. Les exigences qui demandent une « CI bloquante » (ENF-08, 10, 11, 14, 15) sont reformulées en conséquence pendant l'analyse des exigences. [Q4]
 
-## Change Control
-
-<!-- Affirmed by the team. Mode: strict or relaxed. Strict here holds for every intent and cannot be changed from chat. -->
-
 ## Deployment
 
 - La phase Operation est ignorée dans ce flux : ni environnement de préproduction, ni déploiement automatique. [état du flux]
@@ -66,14 +61,3 @@
 - **Erreurs** : un refus métier attendu est un résultat typé (union discriminée) que l'appelant doit traiter. Une violation d'invariant ou une erreur de programmation lève une exception, jamais rattrapée pour être ignorée. Les messages affichés en français sont produits par l'interface à partir de codes stables. [Q5]
 - **Dépendances** : fichier de verrouillage committé, installation à dépendances figées, audit des dépendances avant chaque push. [Q4]
 - **Electron durci dès P0** : isolation de contexte, pas d'intégration Node ni de contenu distant dans l'interface, pont IPC minimal et validé. [Q4]
-## Forbidden
-
-<!-- Team-specific forbidden patterns -->
-
-## Mandated
-
-<!-- Team-specific mandates -->
-
-## Corrections
-
-<!-- Self-learning loop appends here. -->
