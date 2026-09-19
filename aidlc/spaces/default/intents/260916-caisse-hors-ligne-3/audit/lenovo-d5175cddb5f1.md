@@ -1642,3 +1642,141 @@
 **Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
 
 ---
+
+## Human Turn
+**Timestamp**: 2026-09-19T21:12:38Z
+**Event**: HUMAN_TURN
+**Session**: beb2c594-523a-40c9-8010-444d60fb3d2e
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:12:58Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:14:32Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:15:01Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:15:01Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:16:59Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:18:10Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:18:10Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:18:35Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:18:35Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:18:50Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:19:09Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-19T21:19:38Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: unknown mutation-capable tool: Shell
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+
+---
+
+## Unit Paused
+**Timestamp**: 2026-09-19T21:19:41Z
+**Event**: UNIT_PAUSED
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+**Reason**: Push analysis: pre-push hook fails on pnpm typecheck (TS5101 baseUrl deprecated under TypeScript 6).
+**Next Action**: Fix tsconfig TS5101 so pre-push typecheck passes, then resume Code Generation plan approval for u1-pc-proof.
+
+---
