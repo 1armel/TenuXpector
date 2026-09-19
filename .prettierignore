@@ -1,0 +1,9 @@
+node_modules
+dist
+out
+coverage
+pnpm-lock.yaml
+aidlc/
+docs/
+test-results/
+playwright-report/

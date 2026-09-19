@@ -1,0 +1,17 @@
+#!/bin/sh
+# Contrôles avant push (NFR18) : la porte complète.
+set -e
+
+echo "[pre-push] typecheck…"
+pnpm typecheck
+
+echo "[pre-push] lint…"
+pnpm lint
+
+echo "[pre-push] tests et couverture…"
+pnpm test
+
+echo "[pre-push] audit des dépendances…"
+pnpm audit --audit-level=high
+
+echo "[pre-push] OK."

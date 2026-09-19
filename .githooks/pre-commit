@@ -1,0 +1,11 @@
+#!/bin/sh
+# Contrôles avant commit (NFR18) : rapides, sur les seuls fichiers indexés.
+set -e
+
+echo "[pre-commit] Recherche de secrets (ENF-08)…"
+node scripts/check-staged-secrets.mjs
+
+echo "[pre-commit] Contrôle du mot interdit (ENF-14)…"
+node scripts/check-forbidden-word.mjs --staged
+
+echo "[pre-commit] OK."

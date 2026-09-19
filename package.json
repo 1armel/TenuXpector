@@ -1,0 +1,41 @@
+{
+  "name": "tenuxpector",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "scripts": {
+    "prepare": "node scripts/install-git-hooks.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/pc-proof/tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run --coverage",
+    "test:unit": "vitest run --dir apps/pc-proof --coverage",
+    "test:resilience": "vitest run tests/resilience/power-cut.spec.ts --testTimeout=600000",
+    "test:e2e": "playwright test tests/e2e/pc-proof.spec.ts",
+    "check:forbidden-word": "node scripts/check-forbidden-word.mjs",
+    "check:secrets": "node scripts/check-staged-secrets.mjs",
+    "build": "pnpm --filter @tenu/pc-proof run build",
+    "start": "pnpm --filter @tenu/pc-proof run start"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.2",
+    "@vitest/coverage-v8": "^5.0.1",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.12.0",
+    "jsdom": "^30.1.0",
+    "prettier": "^3.9.8",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.1"
+  }
+}

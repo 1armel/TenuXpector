@@ -554,14 +554,14 @@ components:
     entities:
       - name: Invoice
         identifier: id
-        attributes: [id, tenantId, number, saleId, customerId, issuedAt, medium, issuedBy]
+        attributes: [id, tenantId, number, saleId, buyerName, buyerTaxId, buyerAddress, customerId, issuedAt, medium, issuedBy]
         references:
           - entity: Sale
             owned_by: SaleCalculator
             relationship: chaque facture porte sur une vente
           - entity: Customer
             owned_by: Credit
-            relationship: une facture à une entreprise désigne le client facturé
+            relationship: lien facultatif vers le compte client quand la vente a été réglée à crédit ; ne sert pas à désigner l'acheteur facturé
       - name: PrintJob
         identifier: id
         attributes: [id, kind, payload, status, attempts, lastError]
@@ -688,7 +688,7 @@ Chaque entité porte l'identifiant de tenant, soit directement, soit par hérita
 | AuditEntry, OutboxEvent | TransactionalWriter | id | — |
 | SyncCursor | SyncEngine | transport | — |
 | TrustedDevice | SyncEngine | id | User (Identity) |
-| Invoice | Receipt | id | Sale (SaleCalculator), Customer (Credit) |
+| Invoice | Receipt | id | Sale (SaleCalculator), Customer (Credit, facultatif) |
 | PrintJob | Receipt | id | — |
 | CaptureBatch | CatalogCapture | id | — |
 
@@ -725,3 +725,15 @@ Chaque entité porte l'identifiant de tenant, soit directement, soit par hérita
 | CatalogCapture | Dépend d'un service non encore choisi ; isolé pour que ce choix reste réversible |
 
 **Alternatives rejetées** : un domaine en un seul bloc (plus simple au départ, mais aucune frontière testable et un risque de mélanger les règles d'argent avec l'affichage) ; un découpage par unité de travail U1 à U8 (fait dépendre la structure du code d'un calendrier de livraison, pas du métier) ; un masquage réparti dans chaque composant (multiplie les implémentations d'un invariant de sécurité). Détail dans `decisions.md`.
+
+## Modification signalée — désignation de l'acheteur sur une facture
+
+Décision du propriétaire, le 19/09/2026, à la porte d'approbation du découpage en unités.
+
+**Ce qui change.** L'entité `Invoice` porte désormais sa propre désignation d'acheteur : `buyerName`, `buyerTaxId` (le NIU) et `buyerAddress`. Le lien `customerId` vers le `Customer` de `Credit` devient **facultatif** et ne sert plus qu'à rattacher une facture au compte client quand la vente a été réglée à crédit.
+
+**Pourquoi.** L'exigence FR10.3 demande la raison sociale et le NIU de l'acheteur lorsqu'on facture une entreprise. Le `Customer` de `Credit` est une personne réduite à un nom et un téléphone (unité U10) : il ne peut pas porter ces mentions. Confondre les deux rôles — l'acheteur facturé et le client à qui l'on fait crédit — aurait forcé le fichier client à porter des champs d'entreprise pour tout le monde.
+
+**Conséquence sur le découpage.** L'unité U11 Facturation ne dépend plus de l'unité U10 Crédit. Les deux peuvent être construites indépendamment. C'est la résolution de la réserve R-02 de la relecture.
+
+**Réversibilité.** Les trois colonnes ajoutées sont nullables et n'existent pas encore en base : aucune donnée n'est à reprendre. La migration qui les crée sera écrite au socle (U2) et sa migration inverse se limite à les supprimer. Le lien `customerId` est inchangé dans sa forme ; seule son obligation disparaît.

@@ -1332,3 +1332,313 @@
 **Details**: Re-entering gate after revision
 
 ---
+
+## Gate Approved
+**Timestamp**: 2026-09-19T18:22:00Z
+**Event**: GATE_APPROVED
+**Stage**: domain-design
+**User Input**: Approve
+**Review Finding Dispositions**: {"version":1,"dispositions":[{"artifact":"aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/inception/domain-design/components.md","id":"R-04","fingerprint":"sha256:cc336707809de1030ef7c5be10d9a80bb74fc6030490c8fa2f8281c3ba66107c","status":"Accepted risk"}]}
+
+---
+
+## Stage Completion
+**Timestamp**: 2026-09-19T18:22:00Z
+**Event**: STAGE_COMPLETED
+**Stage**: domain-design
+**Validation Basis**: {"graphContract":"sha256:4e5ba0b6334a8c25f8dea5929cee93c113f34e58b422ef110b998ef5ff29e179","inputs":[{"artifact":"requirements","contentHash":"sha256:32b435cfe97b474ad38c36580aea4acd697e371c3799d1b665e70131c5544728","instanceCount":1,"presentCount":1,"producer":"requirements-analysis","required":true,"structureHash":"sha256:09c28e3905fb1089498fc1c9065cec26174541c6bd6e83461caa3bc0127717da"},{"artifact":"team-practices","contentHash":"sha256:b5784ac121edb203b95b0bb9b4588e4fad0e8b21cb89e433fe5d8c75687db474","instanceCount":1,"presentCount":1,"producer":"practices-discovery","required":false,"structureHash":"sha256:7c1e5301c96925c240fee9c17cdbf638bc1c4a01638bf48b3c09b9016eb1574a"}],"outputs":[{"artifact":"components","contentHash":"sha256:29658d30a6635702c933e89b6ab4e2495ddb7372ac3c74ab3fa314bf450d709f","instanceCount":1,"presentCount":1,"producer":"domain-design","required":true,"structureHash":"sha256:c48f7ab555702a0b0cf07b8c4dbc2370fdadda71bb1fe787416ea024098aaeee"},{"artifact":"decisions","contentHash":"sha256:2681c2ebf05a90c6bbb374c14509e064fbd948e403ac2638cea139c911bcd015","instanceCount":1,"presentCount":1,"producer":"domain-design","required":true,"structureHash":"sha256:4ed6b008083dd9acd25f7c8279503724a0dff99b0536299ac5954b92fd2b9171"},{"artifact":"traceability","contentHash":"sha256:1c4e8425e55c4044c70714f657becd64281ef69357069bbb48536c3ceaa02317","instanceCount":1,"presentCount":1,"producer":"domain-design","required":true,"structureHash":"sha256:31b08ff923d5fa86b399dec3e8d1369b261410511d95a9078839ae7f820b1381"}],"projectType":"greenfield","schema":3}
+**Details**: Stage Domain Design approved by gate
+
+---
+
+## Stage Start
+**Timestamp**: 2026-09-19T18:22:01Z
+**Event**: STAGE_STARTED
+**Stage**: units-generation
+**Agent**: aidlc-architect-agent
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-19T18:24:33Z
+**Event**: DECISION_RECORDED
+**Stage**: units-generation
+**Decision**: Q1 Frontiere des unites de travail
+**Options**: A,B,C,D,E,X
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-19T18:24:34Z
+**Event**: DECISION_RECORDED
+**Stage**: units-generation
+**Decision**: Q2 Traitement des deux cibles et des applications separees
+**Options**: A,B,C,D,E,X
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-19T18:24:34Z
+**Event**: DECISION_RECORDED
+**Stage**: units-generation
+**Decision**: Q3 Parallelisme autorise entre unites independantes
+**Options**: A,B,C,D,E,X
+
+---
+
+## Question Answered
+**Timestamp**: 2026-09-19T18:29:10Z
+**Event**: QUESTION_ANSWERED
+**Stage**: units-generation
+**Details**: Q1 : A (unites fonctionnelles du document)
+
+---
+
+## Question Answered
+**Timestamp**: 2026-09-19T18:29:10Z
+**Event**: QUESTION_ANSWERED
+**Stage**: units-generation
+**Details**: Q2 : A (unites dediees empaquetage PC, empaquetage tablette, application proprietaire ; serveur dans la synchronisation)
+
+---
+
+## Question Answered
+**Timestamp**: 2026-09-19T18:29:11Z
+**Event**: QUESTION_ANSWERED
+**Stage**: units-generation
+**Details**: Q3 : A (parallelisme autorise entre unites independantes)
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-19T18:29:11Z
+**Event**: DECISION_RECORDED
+**Stage**: units-generation
+**Decision**: Does this all look correct before I generate the artifact?
+**Options**: Looks correct,Request changes
+**Checkpoint**: Consolidated Summary Confirmation
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/inception/units-generation/units-generation-questions.md
+
+---
+
+## Summary Confirmation Recorded
+**Timestamp**: 2026-09-19T18:30:06Z
+**Event**: SUMMARY_CONFIRMATION_RECORDED
+**Stage**: units-generation
+**Details**: Looks correct
+**Checkpoint**: Consolidated Summary Confirmation
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/inception/units-generation/units-generation-questions.md
+**Questions SHA-256**: 22ed166b42c44ae3f6435316d155a7253ba360e8f2c72ba0a0b90b1564f9e92b
+**Hash Scope**: confirmed-content-v1
+**Summary Authorization Id**: 41b4d822a0d51bfd4fa0ab5a204cfa022a4652b7f2c7259630c951e968fd40c9
+
+---
+
+## Review Requested
+**Timestamp**: 2026-09-19T18:35:20Z
+**Event**: REVIEW_REQUESTED
+**Stage**: units-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Iteration**: 1
+**Artifact Fingerprint**: sha256:78a01a77f63a90d95facac6003fcbcefa663e3fd140bbae4b03fd56a9af7adeb
+**Request Id**: review:12360551953c7223b470dd8456a901e7
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T18:47:04Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log review --help
+**Error**: --help expects a value, got end of arguments.
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T18:47:18Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log review --stage units-generation --reviewer aidlc-architecture-reviewer-agent --iteration 1 --verdict READY
+**Error**: Cannot record the verdict for "units-generation" because its output documents changed after review iteration 1 started. Restore the bytes the reviewer was dispatched on and re-run that exact iteration; --retry-pending cannot rebaseline changed content.
+
+---
+
+## Review Completed
+**Timestamp**: 2026-09-19T18:48:32Z
+**Event**: REVIEW_COMPLETED
+**Stage**: units-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Iteration**: 1
+**Verdict**: READY
+**Request Fingerprint**: sha256:78a01a77f63a90d95facac6003fcbcefa663e3fd140bbae4b03fd56a9af7adeb
+**Artifact Fingerprint**: sha256:78a01a77f63a90d95facac6003fcbcefa663e3fd140bbae4b03fd56a9af7adeb
+**Request Id**: review:12360551953c7223b470dd8456a901e7
+**Review Record**: .aidlc-engine/reviews/units-generation/stage/87a780e548c72a2f/1.json
+**Review Record Digest**: sha256:1a1f0c84680e2df23078c53fcaec9a88241612d0067fc3feee5070c4b3062715
+
+---
+
+## Review Requested
+**Timestamp**: 2026-09-19T18:49:19Z
+**Event**: REVIEW_REQUESTED
+**Stage**: units-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Iteration**: 2
+**Recovery**: stale-receipt
+**Recovery Cause**: artifact
+**Artifact Fingerprint**: sha256:46de26a9ae82bb65bf98c1df9be24afc6ecfb2ad2bb3023e48dfbec76d2728ec
+**Request Id**: review:7187554ab3b859f9cd19ff8bfc3dfb95
+
+---
+
+## Review Completed
+**Timestamp**: 2026-09-19T18:53:59Z
+**Event**: REVIEW_COMPLETED
+**Stage**: units-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Iteration**: 2
+**Verdict**: READY
+**Request Fingerprint**: sha256:46de26a9ae82bb65bf98c1df9be24afc6ecfb2ad2bb3023e48dfbec76d2728ec
+**Artifact Fingerprint**: sha256:46de26a9ae82bb65bf98c1df9be24afc6ecfb2ad2bb3023e48dfbec76d2728ec
+**Request Id**: review:7187554ab3b859f9cd19ff8bfc3dfb95
+**Review Record**: .aidlc-engine/reviews/units-generation/stage/87a780e548c72a2f/2.json
+**Review Record Digest**: sha256:abc06147a523e7daffccbe6058a0d7344e789b047b0fc312678116663ba23a05
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T18:55:17Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-state
+**Command**: aidlc-state engine state gate-start --stage units-generation
+**Error**: Stage status cannot be changed with aidlc-state.ts gate-start because that bypasses the workflow's completion and approval checks. Use aidlc-orchestrate.ts report --stage <slug> --result <awaiting-approval|approved|rejected|revised|completed|skipped>; use aidlc-orchestrate.ts park to pause, and next/jump to move through the workflow.
+
+---
+
+## Stage Awaiting Approval
+**Timestamp**: 2026-09-19T18:55:32Z
+**Event**: STAGE_AWAITING_APPROVAL
+**Stage**: units-generation
+
+---
+
+## Gate Approved
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: GATE_APPROVED
+**Stage**: units-generation
+**Review Finding Dispositions**: {"version":1,"dispositions":[{"artifact":"aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/inception/units-generation/unit-of-work.md","id":"R-02","fingerprint":"sha256:56fa1bad68f7fb7854a5a2c061868cca1ce4d420a2cb0a5cc4a0798afc448b05","status":"Accepted risk"}]}
+
+---
+
+## Stage Completion
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: STAGE_COMPLETED
+**Stage**: units-generation
+**Validation Basis**: {"graphContract":"sha256:baf39a0a351356930786ca985bbb7c5893e8db3e93715525a8e909b629765ee7","inputs":[{"artifact":"components","contentHash":"sha256:29658d30a6635702c933e89b6ab4e2495ddb7372ac3c74ab3fa314bf450d709f","instanceCount":1,"presentCount":1,"producer":"domain-design","required":true,"structureHash":"sha256:c48f7ab555702a0b0cf07b8c4dbc2370fdadda71bb1fe787416ea024098aaeee"},{"artifact":"decisions","contentHash":"sha256:2681c2ebf05a90c6bbb374c14509e064fbd948e403ac2638cea139c911bcd015","instanceCount":1,"presentCount":1,"producer":"domain-design","required":false,"structureHash":"sha256:4ed6b008083dd9acd25f7c8279503724a0dff99b0536299ac5954b92fd2b9171"},{"artifact":"requirements","contentHash":"sha256:32b435cfe97b474ad38c36580aea4acd697e371c3799d1b665e70131c5544728","instanceCount":1,"presentCount":1,"producer":"requirements-analysis","required":true,"structureHash":"sha256:09c28e3905fb1089498fc1c9065cec26174541c6bd6e83461caa3bc0127717da"}],"outputs":[{"artifact":"traceability","contentHash":"sha256:25bf5ee9a5531770c6b20ed800e60557b4b0afb4ccd5cfb1a72a8e9c423d291c","instanceCount":1,"presentCount":1,"producer":"units-generation","required":true,"structureHash":"sha256:a9320e18b6775f572cec6adb2ce0289a7facb6d1cd3a8407bb872878392c8f8d"},{"artifact":"unit-of-work-dependency","contentHash":"sha256:55832ddb6d4cfe54ab60ab33e714af10ba90bbbeb63b3abe15230aa0d05d6d3b","instanceCount":1,"presentCount":1,"producer":"units-generation","required":true,"structureHash":"sha256:86a3895c99c97fa2373ebd2f3f69bb64f1aec475b23d973766e685ff7e9db289"},{"artifact":"unit-of-work-story-map","contentHash":"sha256:8ab3d85da3053babe4a3f4c960c9ccd2eaefa90c8606c9199b9517d2967182b7","instanceCount":1,"presentCount":1,"producer":"units-generation","required":true,"structureHash":"sha256:3a8ca9662db096cccabbd42767e6d66cb2021a1c8699df237917523b7515efe5"},{"artifact":"unit-of-work","contentHash":"sha256:3b1413c6ba2b5a6a9e131f976df61f09e24d855e2dbd85bd047962e5fd10d20a","instanceCount":1,"presentCount":1,"producer":"units-generation","required":true,"structureHash":"sha256:749eb0aef2fe99641a3123ea522f5c4602b9896af4ffe6d12d790d613d77fa77"}],"projectType":"greenfield","schema":3}
+**Details**: Stage Units Generation approved by gate
+
+---
+
+## Phase Completion
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: PHASE_COMPLETED
+**From phase**: inception
+**To phase**: construction
+**Stages completed**: 10
+
+---
+
+## Phase Verification
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: PHASE_VERIFIED
+**Phase boundary**: inception → construction
+
+---
+
+## Phase Start
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: PHASE_STARTED
+**Phase**: construction
+**Scope**: spec-driven-dual-target-ops
+
+---
+
+## Stage Start
+**Timestamp**: 2026-09-19T20:04:28Z
+**Event**: STAGE_STARTED
+**Stage**: functional-design
+**Agent**: aidlc-architect-agent
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-19T20:05:32Z
+**Event**: DECISION_RECORDED
+**Stage**: units-generation
+**Decision**: L'acheteur facture et le client a credit sont deux objets distincts. L'entite Invoice porte buyerName, buyerTaxId (NIU) et buyerAddress ; le lien customerId vers Customer (Credit) devient facultatif. L'unite U11 Facturation ne depend plus de U10 Credit. Modification de modele signalee dans components.md, reversible (trois colonnes nullables, aucune donnee existante).
+**Rationale**: FR10.3 exige raison sociale et NIU de l'acheteur entreprise ; le Customer de Credit est une personne reduite au nom et au telephone et ne peut pas les porter. Resout la reserve R-02 de la relecture. Decide par le proprietaire a la porte d'approbation.
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T20:08:33Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-bolt
+**Command**: aidlc-bolt engine bolt start
+**Error**: Missing --name <bolt-name or csv>
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T20:08:34Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-bolt
+**Command**: aidlc-bolt engine bolt start --unit u1-pc-proof
+**Error**: Missing --name <bolt-name or csv>
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T20:08:52Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-state
+**Command**: aidlc-state engine state unit start --stage functional-design --unit u1-pc-proof
+**Error**: Refusing to start unit "u1-pc-proof" for "functional-design": the engine currently routes a run-stage directive. Run the exact directive.stage/directive.unit pair returned by aidlc-orchestrate.ts next.
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-19T20:09:16Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-state
+**Command**: aidlc-state engine state reuse-artifact
+**Error**: Usage: aidlc-state.ts reuse-artifact <slug> --decision <keep|modify|redo> --artifacts <csv> [--repo <repo>] [--single]
+
+---
+
+## Artifact Reused
+**Timestamp**: 2026-09-19T20:09:25Z
+**Event**: ARTIFACT_REUSED
+**Stage**: units-generation
+**Decision**: keep
+**Artifacts**: unit-of-work,unit-of-work-dependency,unit-of-work-story-map,traceability
+
+---
+
+## Artifact Reused
+**Timestamp**: 2026-09-19T20:09:26Z
+**Event**: ARTIFACT_REUSED
+**Stage**: domain-design
+**Decision**: keep
+**Artifacts**: components,decisions,traceability
+
+---
+
+## Unit Started
+**Timestamp**: 2026-09-19T20:11:30Z
+**Event**: UNIT_STARTED
+**Stage**: code-generation
+**Unit**: u1-pc-proof
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+
+---
