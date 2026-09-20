@@ -45,7 +45,11 @@
 
 
 
-- **Active Unit**: u2-foundation
+
+
+
+
+- **Active Unit**: u3-domain
 
 - **Unit State**: in-progress
 
@@ -110,7 +114,7 @@ Per unit: [TBD]
 - **Current Stage**: functional-design
 - **Next Stage**: code-generation
 - **Status**: Running
-- **Last Updated**: 2026-09-20T22:03:01Z
+- **Last Updated**: 2026-09-20T23:41:59Z
 
 ## Session Resume Point
 - **Last Completed Stage**: units-generation

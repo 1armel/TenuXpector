@@ -1,0 +1,161 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-foundation",
+  "upstream_ids": [
+    "FR1.2",
+    "FR1.3",
+    "FR1.4",
+    "FR1.5",
+    "FR1.6",
+    "FR1.7",
+    "FR1.8",
+    "FR1.9",
+    "FR3.1",
+    "FR3.4",
+    "FR3.8",
+    "FR4.8",
+    "FR6.1",
+    "FR7.1",
+    "BR1.1",
+    "BR1.2",
+    "BR1.3",
+    "BR1.4",
+    "BR1.5",
+    "BR2.1",
+    "BR2.2",
+    "BR2.3",
+    "BR2.4",
+    "BR3.1",
+    "BR3.2",
+    "BR4.1",
+    "BR4.2",
+    "BR4.3",
+    "BR5.1",
+    "BR5.2",
+    "BR5.3",
+    "BR5.4",
+    "BR6.1",
+    "BR6.2",
+    "ENF-14",
+    "DEC-04"
+  ],
+  "coverage": [
+    {
+      "id": "FR1.2",
+      "status": "OK",
+      "target": "packages/db/src/migrations.ts; packages/db/src/encrypted-database.ts"
+    },
+    {
+      "id": "FR1.3",
+      "status": "OK",
+      "target": "packages/db/src/migrations.ts (append-only triggers); packages/db/tests/append-only.spec.ts"
+    },
+    {
+      "id": "FR1.4",
+      "status": "OK",
+      "target": "packages/db/src/transactional-writer.ts (assertTenantMatch); packages/db/tests/uuid-and-tenant.spec.ts"
+    },
+    {
+      "id": "FR1.5",
+      "status": "OK",
+      "target": "packages/db/src/uuid-v7.ts; EncryptedDatabase.nextId()"
+    },
+    {
+      "id": "FR1.6",
+      "status": "OK",
+      "target": "packages/db/src/identity/pin.ts; packages/db/src/identity/identity-service.ts; packages/db/tests/identity-pin.spec.ts"
+    },
+    {
+      "id": "FR1.7",
+      "status": "OK",
+      "target": "packages/db/src/seed/demo-seed.ts; packages/db/tests/seed-and-migrations.spec.ts"
+    },
+    {
+      "id": "FR1.8",
+      "status": "OK",
+      "target": "packages/db/src/settings/defaults.ts; packages/db/src/settings/settings-service.ts"
+    },
+    {
+      "id": "FR1.9",
+      "status": "OK",
+      "target": "packages/db/src/identity/identity-service.ts (assignGerant/revokeGerant → vendeur R-05)"
+    },
+    {
+      "id": "FR4.8",
+      "status": "OK",
+      "target": "packages/db/src/transactional-writer.ts; packages/db/tests/outbox-transaction.spec.ts"
+    },
+    {
+      "id": "FR6.1",
+      "status": "OK",
+      "target": "packages/db/src/transactional-writer.ts; packages/db/tests/append-only.spec.ts"
+    },
+    {
+      "id": "FR7.1",
+      "status": "OK",
+      "target": "packages/db/src/transactional-writer.ts; MissingOutboxError; localSequence"
+    },
+    {
+      "id": "BR5.1",
+      "status": "OK",
+      "target": "packages/db/src/sensitive-data-guard.ts; packages/db/tests/sensitive-data-guard.spec.ts"
+    },
+    {
+      "id": "BR5.2",
+      "status": "OK",
+      "target": "packages/db/src/catalog/product.ts; packages/db/src/migrations.ts (no quantity column)"
+    },
+    {
+      "id": "BR5.3",
+      "status": "OK",
+      "target": "packages/db/src/catalog/product.ts (floor≤ref, base factor 1000)"
+    },
+    {
+      "id": "BR5.4",
+      "status": "OK",
+      "target": "packages/db/src/catalog/product.ts (deactivateProduct)"
+    },
+    {
+      "id": "BR6.2",
+      "status": "OK",
+      "target": "scripts/check-forbidden-word.mjs (EXCLUDED packages/db/src/seed/demo-seed.ts)"
+    },
+    {
+      "id": "ENF-14",
+      "status": "OK",
+      "target": "scripts/check-forbidden-word.mjs; packages/db/src/seed/demo-seed.ts"
+    },
+    {
+      "id": "DEC-04",
+      "status": "OK",
+      "target": "packages/db/src/catalog/product.ts; packages/db/src/settings/defaults.ts (integer money/rates)"
+    }
+  ],
+  "reverse": [
+    {
+      "id": "R-03",
+      "status": "OK",
+      "target": "Identity.recordPinAttempt — no OutboxEvent; tested in outbox-transaction.spec.ts"
+    },
+    {
+      "id": "R-05",
+      "status": "OK",
+      "target": "revokeGerant / demote previous gerant → role vendeur"
+    },
+    {
+      "id": "R-01",
+      "status": "Deferred",
+      "target": "AuditEntry.serverTimestamp deferred to U8; recordedAt is local now"
+    },
+    {
+      "id": "FR3.1",
+      "status": "OK",
+      "target": "Product/SellingUnit schema only (import UI deferred to U4)"
+    },
+    {
+      "id": "sales-seed-30d",
+      "status": "Deferred",
+      "target": "FR1.7 historical sales portion deferred until sales schema unit"
+    }
+  ]
+}

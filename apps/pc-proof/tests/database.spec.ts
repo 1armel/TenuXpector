@@ -41,7 +41,7 @@ describe('EncryptedDatabase.open [NFR8]', () => {
     });
     expect(db.journalMode.toLowerCase()).toBe('wal');
     expect(db.synchronousMode).toBe(2); // FULL
-    expect(db.schemaVersion).toBe(1);
+    expect(db.schemaVersion).toBe(2);
     db.close();
   });
 
@@ -136,12 +136,12 @@ describe('migrations aller / retour', () => {
       encryptionKey: DEVELOPMENT_FALLBACK_KEY,
     });
     db.insertProbeEntry('keep');
-    expect(db.schemaVersion).toBe(1);
-    expect(db.migrateDown(0)).toBe(1);
+    expect(db.schemaVersion).toBe(2);
+    expect(db.migrateDown(0)).toBe(2);
     expect(db.schemaVersion).toBe(0);
     expect(() => db.countProbeEntries()).toThrow();
-    expect(db.migrateUp()).toBe(1);
-    expect(db.schemaVersion).toBe(1);
+    expect(db.migrateUp()).toBe(2);
+    expect(db.schemaVersion).toBe(2);
     expect(db.countProbeEntries()).toBe(0);
     db.close();
   });

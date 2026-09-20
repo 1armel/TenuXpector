@@ -3,7 +3,8 @@
   "compilerOptions": {
     "types": ["node"],
     "paths": {
-      "@pc-proof/*": ["./apps/pc-proof/src/*"]
+      "@pc-proof/*": ["./apps/pc-proof/src/*"],
+      "@tenu/db": ["./packages/db/src/index.ts"]
     }
   },
   "include": [
@@ -13,6 +14,8 @@
     "playwright.config.ts",
     "apps/pc-proof/src/types/**/*.d.ts",
     "apps/pc-proof/src/main/**/*.ts",
-    "apps/pc-proof/src/shared/**/*.ts"
+    "apps/pc-proof/src/shared/**/*.ts",
+    "packages/db/src/**/*.ts",
+    "packages/db/src/**/*.d.ts"
   ]
 }

@@ -867,3 +867,445 @@
 **Request Id**: review:d3c6addaf57205f2812e7352756b95d3
 
 ---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T22:55:32Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/.aidlc-engine/reviews/functional-design/units/u2-foundation/f9b17f6359096183/1.review.md
+**Context**: .aidlc-engine > reviews > functional-design > units > u2-foundation > f9b17f6359096183 > 1.review.md
+
+---
+
+## Subagent Completed
+**Timestamp**: 2026-09-20T22:55:50Z
+**Event**: SUBAGENT_COMPLETED
+**Agent Type**: unknown
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-20T22:56:00Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log review
+**Error**: Missing --stage <slug>
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-20T22:56:00Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log
+**Error**: Unknown subcommand: undefined. Valid: decision, answer, link, review
+
+---
+
+## Review Completed
+**Timestamp**: 2026-09-20T22:56:24Z
+**Event**: REVIEW_COMPLETED
+**Stage**: functional-design
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Unit**: u2-foundation
+**Iteration**: 1
+**Verdict**: READY
+**Request Fingerprint**: sha256:449b0cede4bc2ec1cfae01dc7eb600b1903bc80864d7eba0416e91729dfcc2c3
+**Artifact Fingerprint**: sha256:449b0cede4bc2ec1cfae01dc7eb600b1903bc80864d7eba0416e91729dfcc2c3
+**Request Id**: review:d3c6addaf57205f2812e7352756b95d3
+**Review Record**: .aidlc-engine/reviews/functional-design/units/u2-foundation/f9b17f6359096183/1.json
+**Review Record Digest**: sha256:ac55e908acab122e9c2430311b07ed052035218a69e028e34da68f19d9abd9be
+
+---
+
+## Unit Completed
+**Timestamp**: 2026-09-20T22:57:14Z
+**Event**: UNIT_COMPLETED
+**Stage**: functional-design
+**Unit**: u2-foundation
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T22:57:30Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T22:57:44Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T22:58:21Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-20T22:59:35Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T22:59:43Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T22:59:48Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T23:00:37Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T23:00:46Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T23:01:52Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: 
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Unit Started
+**Timestamp**: 2026-09-20T23:02:31Z
+**Event**: UNIT_STARTED
+**Stage**: code-generation
+**Unit**: u2-foundation
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T23:02:44Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Shell
+**Target**: shell command: bun <project-dir>/.claude/tools/aidlc-testing-posture.ts resolve --unit u2-foundation 2>&1 | head -c 2000\nbun /home/armel/Documents/g
+**Stage**: code-generation
+**Unit**: u2-foundation
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:03:28Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-plan.md
+**Context**: construction > u2-foundation > code-generation > code-generation-plan.md
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:03:29Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/unit-test-instructions.md
+**Context**: construction > u2-foundation > code-generation > unit-test-instructions.md
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-20T23:04:12Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-plan.md
+**Context**: construction > u2-foundation > code-generation > code-generation-plan.md
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:04:30Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-questions.md
+**Context**: construction > u2-foundation > code-generation > code-generation-questions.md
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-20T23:04:32Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log decision --stage code-generation --unit u2-foundation --checkpoint plan-approval --questions-file aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-questions.md --decision Approve this exact Code Generation plan? --options Approve Plan,Request Changes
+**Error**: Plan Approval requires --session <id> from the invoking SessionStart context.
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-20T23:04:40Z
+**Event**: DECISION_RECORDED
+**Stage**: code-generation
+**Decision**: Approve this exact Code Generation plan?
+**Options**: Approve Plan,Request Changes
+**Checkpoint**: Code Generation Plan Approval
+**Plan Target**: unit:u2-foundation
+**Intent**: 01a0abf0-fdd1-7b22-924c-a03712183806
+**Directive Epoch**: sha256:2bb455bc5ca7d43277aabc4f344918b996fede017844fbff4bd939aa3ec4aa93
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+**Approval Fingerprint**: sha256:v3:668db113627fc22681f7cdf57b35b4ea5f3077b67e90325b1629637e8e33be87
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-questions.md
+**Questions SHA-256**: 65401ca3f2f7d29b1b6d386e8a35a9605ce97e15e7b5071e4f86726be5bb4e3c
+**Prompt SHA-256**: 65401ca3f2f7d29b1b6d386e8a35a9605ce97e15e7b5071e4f86726be5bb4e3c
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+**Unit**: u2-foundation
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-20T23:07:25Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-20T23:07:45Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-questions.md
+**Context**: construction > u2-foundation > code-generation > code-generation-questions.md
+
+---
+
+## Plan Approval Recorded
+**Timestamp**: 2026-09-20T23:07:46Z
+**Event**: PLAN_APPROVAL_RECORDED
+**Stage**: code-generation
+**Details**: Approve Plan
+**Unit**: u2-foundation
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+**Checkpoint**: Code Generation Plan Approval
+**Plan Target**: unit:u2-foundation
+**Intent**: 01a0abf0-fdd1-7b22-924c-a03712183806
+**Directive Epoch**: sha256:2bb455bc5ca7d43277aabc4f344918b996fede017844fbff4bd939aa3ec4aa93
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+**Approval Fingerprint**: sha256:v3:668db113627fc22681f7cdf57b35b4ea5f3077b67e90325b1629637e8e33be87
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-questions.md
+**Questions SHA-256**: 29b4569bffc15b57b4a6a99d37c288ba15bf19957e60e6379a0dc813f85c9fb4
+**Prompt SHA-256**: 65401ca3f2f7d29b1b6d386e8a35a9605ce97e15e7b5071e4f86726be5bb4e3c
+
+---
+
+## Subagent Completed
+**Timestamp**: 2026-09-20T23:09:22Z
+**Event**: SUBAGENT_COMPLETED
+**Agent Type**: unknown
+
+---
+
+## Plan Approval Blocked
+**Timestamp**: 2026-09-20T23:09:36Z
+**Event**: PLAN_APPROVAL_BLOCKED
+**Tool**: Task
+**Target**: aidlc-developer-agent
+**Stage**: code-generation
+**Unit**: (missing marker)
+
+---
+
+## Subagent Completed
+**Timestamp**: 2026-09-20T23:09:37Z
+**Event**: SUBAGENT_COMPLETED
+**Agent Type**: unknown
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:30:44Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-summary.md
+**Context**: construction > u2-foundation > code-generation > code-summary.md
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:30:56Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/traceability.json
+**Context**: construction > u2-foundation > code-generation > traceability.json
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:30:57Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/source-manifest.json
+**Context**: construction > u2-foundation > code-generation > source-manifest.json
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-20T23:31:20Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/code-generation-plan.md
+**Context**: construction > u2-foundation > code-generation > code-generation-plan.md
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-20T23:32:01Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log review --stage code-generation --reviewer aidlc-architecture-reviewer-agent --iteration 1 --unit u2-foundation
+**Error**: Cannot record REVIEW_REQUESTED for "code-generation": unit "u2-foundation" has no valid source manifest at aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/source-manifest.json (writes[40].path is inside the framework record/shell exclusions). Write the manifest listing every application-source path the reviewer will inspect, then dispatch the review.
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-20T23:32:17Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u2-foundation/code-generation/source-manifest.json
+**Context**: construction > u2-foundation > code-generation > source-manifest.json
+
+---
+
+## Review Requested
+**Timestamp**: 2026-09-20T23:32:19Z
+**Event**: REVIEW_REQUESTED
+**Stage**: code-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Unit**: u2-foundation
+**Iteration**: 1
+**Artifact Fingerprint**: sha256:e5dfcf308654641df2a6de1c6cd224a4e75cb1c92c960ac7513483a990a3eeab
+**Request Id**: review:2011ad9a4560c12d598fd9fd42c0fb30
+**Source Fingerprint**: 631d39d08622f160d5f291dde08326cf96d4f7beb694f44255b851aa09b4d831
+**Unit Source Fingerprint**: sha256:8733d580abc64865e26dede36620afda27f295ab3614ec00d087619f2fcc2d11
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:37:06Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/.aidlc-engine/reviews/code-generation/units/u2-foundation/f9b17f6359096183/1.review.md
+**Context**: .aidlc-engine > reviews > code-generation > units > u2-foundation > f9b17f6359096183 > 1.review.md
+
+---
+
+## Subagent Completed
+**Timestamp**: 2026-09-20T23:37:30Z
+**Event**: SUBAGENT_COMPLETED
+**Agent Type**: unknown
+
+---
+
+## Review Completed
+**Timestamp**: 2026-09-20T23:38:01Z
+**Event**: REVIEW_COMPLETED
+**Stage**: code-generation
+**Reviewer**: aidlc-architecture-reviewer-agent
+**Unit**: u2-foundation
+**Iteration**: 1
+**Verdict**: READY
+**Request Fingerprint**: sha256:e5dfcf308654641df2a6de1c6cd224a4e75cb1c92c960ac7513483a990a3eeab
+**Artifact Fingerprint**: sha256:e5dfcf308654641df2a6de1c6cd224a4e75cb1c92c960ac7513483a990a3eeab
+**Request Id**: review:2011ad9a4560c12d598fd9fd42c0fb30
+**Request Source Fingerprint**: 631d39d08622f160d5f291dde08326cf96d4f7beb694f44255b851aa09b4d831
+**Source Fingerprint**: 631d39d08622f160d5f291dde08326cf96d4f7beb694f44255b851aa09b4d831
+**Unit Source Fingerprint**: sha256:8733d580abc64865e26dede36620afda27f295ab3614ec00d087619f2fcc2d11
+**Review Record**: .aidlc-engine/reviews/code-generation/units/u2-foundation/f9b17f6359096183/1.json
+**Review Record Digest**: sha256:bd6429635ac179fcb926adff6763fcb27b8160f8e0bc1c047cf91279a2cd2497
+
+---
+
+## Unit Completed
+**Timestamp**: 2026-09-20T23:38:02Z
+**Event**: UNIT_COMPLETED
+**Stage**: code-generation
+**Unit**: u2-foundation
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-20T23:41:03Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-20T23:41:58Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u3-domain/functional-design/functional-design-questions.md
+**Context**: construction > u3-domain > functional-design > functional-design-questions.md
+
+---
+
+## Unit Started
+**Timestamp**: 2026-09-20T23:41:59Z
+**Event**: UNIT_STARTED
+**Stage**: functional-design
+**Unit**: u3-domain
+**Run floor**: WORKFLOW_STARTED:2026-09-16T20:38:12Z#1
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-20T23:43:02Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-20T23:43:10Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/u3-domain/functional-design/functional-design-questions.md
+**Context**: construction > u3-domain > functional-design > functional-design-questions.md
+
+---

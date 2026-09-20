@@ -12,6 +12,7 @@
     "rebuild": "electron-rebuild -f -w better-sqlite3-multiple-ciphers"
   },
   "dependencies": {
+    "@tenu/db": "workspace:*",
     "better-sqlite3-multiple-ciphers": "^13.0.3",
     "zod": "^4.6.5"
   },

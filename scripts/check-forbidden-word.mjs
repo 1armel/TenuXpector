@@ -51,7 +51,7 @@ const INCLUDED_ROOT_FILES = [
  * exact (et non par un motif). Il n'existe pas encore en U1 ; il arrivera
  * avec U2.
  */
-const EXCLUDED_EXACT_PATHS = ['packages/seed/src/demo-data.ts'];
+const EXCLUDED_EXACT_PATHS = ['packages/db/src/seed/demo-seed.ts'];
 
 /** Dossiers jamais parcourus : ils ne contiennent pas de code du projet. */
 const SKIPPED_DIR_NAMES = new Set(['node_modules', 'dist', 'out', 'coverage', '.git']);

@@ -5,7 +5,8 @@
     "types": ["node"],
     "jsx": "react-jsx",
     "paths": {
-      "@pc-proof/*": ["./src/*"]
+      "@pc-proof/*": ["./src/*"],
+      "@tenu/db": ["../../packages/db/src/index.ts"]
     }
   },
   "include": [
