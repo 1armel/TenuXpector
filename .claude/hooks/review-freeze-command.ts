@@ -1044,7 +1044,7 @@ export function writeTargets(
   toolInput: Record<string, unknown> | undefined,
   cwd = process.cwd(),
 ): string[] {
-  if (toolName === "Bash") {
+  if (/^(bash|shell|execute_bash|local_shell_call)$/i.test(toolName)) {
     const command = toolInput?.command;
     return typeof command === "string" ? shellWriteTargets(command, cwd) : [];
   }

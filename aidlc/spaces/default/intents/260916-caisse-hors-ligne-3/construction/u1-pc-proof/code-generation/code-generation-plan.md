@@ -84,38 +84,38 @@ Une exception assumée : l'étape 8 (résistance à la coupure) écrit son banc 
 
 ### Socle du dépôt
 
-- [ ] **Étape 1 — Structure du monorepo et configuration de production.**
+- [x] **Étape 1 — Structure du monorepo et configuration de production.**
       `pnpm-workspace.yaml`, les dossiers `packages/` et `apps/` déclarés, `tsconfig.base.json` en TypeScript strict (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`), `.editorconfig`, `.gitignore`, `.nvmrc`. Aucun `any` autorisé. [NFR11]
-- [ ] **Étape 2 — Outillage de qualité.** Prettier et ESLint à la racine, avec les règles typées de `typescript-eslint`. La règle de frontière de couches est posée dès maintenant, même si `packages/domain` est encore vide : elle interdira à `domain` d'importer une base, une interface ou le réseau. [team.md, Code Style]
-- [ ] **Étape 3 — Banc de test et commande exacte.** Vitest pour l'unitaire et l'intégration, Playwright pour le bout en bout sur Electron. Les seuils de couverture sont déclarés ici et ne seront jamais abaissés : 80 % des lignes et des branches pour cette unité. La commande exacte de l'unité est consignée dans `unit-test-instructions.md`. Cette étape précède toute étape qui exécute un test. [NFR11]
-- [ ] **Étape 4 — Contrôles git versionnés.** Avant commit : recherche de secrets sur les fichiers indexés, et contrôle du mot interdit par liste d'inclusion (`apps/`, `packages/`, configuration racine). Avant push : `pnpm typecheck`, `pnpm lint`, `pnpm test`, audit des dépendances. Le script de contrôle ne contient pas le mot en clair et échoue si le périmètre inclus est vide. [NFR8, NFR14]
+- [x] **Étape 2 — Outillage de qualité.** Prettier et ESLint à la racine, avec les règles typées de `typescript-eslint`. La règle de frontière de couches est posée dès maintenant, même si `packages/domain` est encore vide : elle interdira à `domain` d'importer une base, une interface ou le réseau. [team.md, Code Style]
+- [x] **Étape 3 — Banc de test et commande exacte.** Vitest pour l'unitaire et l'intégration, Playwright pour le bout en bout sur Electron. Les seuils de couverture sont déclarés ici et ne seront jamais abaissés : 80 % des lignes et des branches pour cette unité. La commande exacte de l'unité est consignée dans `unit-test-instructions.md`. Cette étape précède toute étape qui exécute un test. [NFR11]
+- [x] **Étape 4 — Contrôles git versionnés.** Avant commit : recherche de secrets sur les fichiers indexés, et contrôle du mot interdit par liste d'inclusion (`apps/`, `packages/`, configuration racine). Avant push : `pnpm typecheck`, `pnpm lint`, `pnpm test`, audit des dépendances. Le script de contrôle ne contient pas le mot en clair et échoue si le périmètre inclus est vide. [NFR8, NFR14]
 
 ### Coquille Electron durcie
 
-- [ ] **Étape 5 — Application Electron minimale, durcie dès la première ligne.**
+- [x] **Étape 5 — Application Electron minimale, durcie dès la première ligne.**
       Processus principal, préchargement, interface React servie par Vite. Durcissement non négociable : `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, `webSecurity` actif, aucune URL distante chargée dans l'interface, politique de sécurité de contenu stricte, navigation et ouverture de fenêtres refusées par défaut. [NFR8]
-- [ ] **Étape 6 — Pont IPC minimal et validé.** Trois canaux seulement : ouvrir la base, écrire une ligne d'essai, imprimer un ticket d'essai. Chaque charge utile est validée par Zod **des deux côtés** du pont. Un message non conforme est rejeté, jamais deviné. [CLAUDE.md, NFR8]
-- [ ] **Étape 7 — Tests de la coquille.** Couche implémentée, puis testée : démarrage, absence d'intégration Node dans l'interface, refus d'une navigation externe, rejet d'une charge IPC invalide. Cas nominal plus au moins deux cas d'erreur par fichier de test.
+- [x] **Étape 6 — Pont IPC minimal et validé.** Trois canaux seulement : ouvrir la base, écrire une ligne d'essai, imprimer un ticket d'essai. Chaque charge utile est validée par Zod **des deux côtés** du pont. Un message non conforme est rejeté, jamais deviné. [CLAUDE.md, NFR8]
+- [x] **Étape 7 — Tests de la coquille.** Couche implémentée, puis testée : démarrage, absence d'intégration Node dans l'interface, refus d'une navigation externe, rejet d'une charge IPC invalide. Cas nominal plus au moins deux cas d'erreur par fichier de test.
 
 ### Base locale chiffrée
 
-- [ ] **Étape 8 — Banc d'arrêts forcés, écrit avant l'adaptateur.**
+- [x] **Étape 8 — Banc d'arrêts forcés, écrit avant l'adaptateur.**
       Un harnais lance l'application, écrit en boucle, tue le processus sans préavis au milieu d'une transaction, rouvre la base et vérifie deux choses : aucune transaction validée n'est perdue, et la base n'est pas corrompue. [NFR4, NFR17]
-- [ ] **Étape 9 — Adaptateur de base chiffrée.** SQLite chiffré au repos, en mode journal WAL avec synchronisation complète. La clé de chiffrement n'est jamais écrite dans le dépôt ni dans un journal. Migrations réversibles dès la première. Identifiants en UUID v7 générés côté client. [NFR8, CLAUDE.md]
-- [ ] **Étape 10 — Le banc tourne pour de vrai.** 10 arrêts forcés au minimum pour le jalon J0. Le résultat est un chiffre consigné, pas une impression. [NFR4, NFR17]
-- [ ] **Étape 11 — Tests de la base.** Ouverture, échec d'ouverture avec une mauvaise clé, écriture, relecture, migration aller et retour, refus d'une base non chiffrée.
+- [x] **Étape 9 — Adaptateur de base chiffrée.** SQLite chiffré au repos, en mode journal WAL avec synchronisation complète. La clé de chiffrement n'est jamais écrite dans le dépôt ni dans un journal. Migrations réversibles dès la première. Identifiants en UUID v7 générés côté client. [NFR8, CLAUDE.md]
+- [x] **Étape 10 — Le banc tourne pour de vrai.** 10 arrêts forcés au minimum pour le jalon J0. Le résultat est un chiffre consigné, pas une impression. [NFR4, NFR17]
+- [x] **Étape 11 — Tests de la base.** Ouverture, échec d'ouverture avec une mauvaise clé, écriture, relecture, migration aller et retour, refus d'une base non chiffrée.
 
 ### Impression thermique
 
-- [ ] **Étape 12 — Interface d'impression et composition ESC/POS.** Une interface `ReceiptPrinter` avec deux implémentations, parce que la voie qui fonctionnera sous Windows n'est pas connue d'avance : envoi direct au périphérique USB, et envoi d'octets bruts à la file d'impression Windows. Le choix se fait sur mesure, pas sur opinion — c'est précisément le rôle de cette preuve de concept. Un aperçu à l'écran sert de troisième implémentation, toujours disponible.
-- [ ] **Étape 13 — Ticket d'essai.** Texte en français, montants au format « 12 500 FCFA », dates JJ/MM/AAAA, horodatages stockés en UTC et affichés en `Africa/Douala`. Aucun montant en flottant : entiers FCFA. [team.md Code Style, DEC-04]
-- [ ] **Étape 14 — Tests d'impression.** Composition des octets ESC/POS vérifiée sans matériel, imprimante absente, imprimante qui refuse, coupure en cours d'impression. **Une impression échouée ne bloque jamais l'opération appelante** : cette règle est vérifiée par un test dès maintenant.
+- [x] **Étape 12 — Interface d'impression et composition ESC/POS.** Une interface `ReceiptPrinter` avec deux implémentations, parce que la voie qui fonctionnera sous Windows n'est pas connue d'avance : envoi direct au périphérique USB, et envoi d'octets bruts à la file d'impression Windows. Le choix se fait sur mesure, pas sur opinion — c'est précisément le rôle de cette preuve de concept. Un aperçu à l'écran sert de troisième implémentation, toujours disponible.
+- [x] **Étape 13 — Ticket d'essai.** Texte en français, montants au format « 12 500 FCFA », dates JJ/MM/AAAA, horodatages stockés en UTC et affichés en `Africa/Douala`. Aucun montant en flottant : entiers FCFA. [team.md Code Style, DEC-04]
+- [x] **Étape 14 — Tests d'impression.** Composition des octets ESC/POS vérifiée sans matériel, imprimante absente, imprimante qui refuse, coupure en cours d'impression. **Une impression échouée ne bloque jamais l'opération appelante** : cette règle est vérifiée par un test dès maintenant.
 
 ### Bout en bout et clôture
 
-- [ ] **Étape 15 — Parcours Playwright sur Electron.** Démarrer, ouvrir la base, écrire, imprimer, fermer. C'est le squelette du parcours complet qui grandira jusqu'à ENF-11.
-- [ ] **Étape 16 — ADR des modules natifs.** Un ADR par décision engageante dans `docs/adr/` : le moteur de base chiffrée retenu, la voie d'impression retenue, la version d'Electron ciblée. Chacun documente le contexte, la décision, les conséquences et les alternatives rejetées. [CLAUDE.md, phases/inception.md]
-- [ ] **Étape 17 — Traçabilité et documentation.** `traceability.json`, `code-summary.md`, `source-manifest.json`, et le glossaire français-anglais amorcé. [team.md Code Style]
+- [x] **Étape 15 — Parcours Playwright sur Electron.** Démarrer, ouvrir la base, écrire, imprimer, fermer. C'est le squelette du parcours complet qui grandira jusqu'à ENF-11.
+- [x] **Étape 16 — ADR des modules natifs.** Un ADR par décision engageante dans `docs/adr/` : le moteur de base chiffrée retenu, la voie d'impression retenue, la version d'Electron ciblée. Chacun documente le contexte, la décision, les conséquences et les alternatives rejetées. [CLAUDE.md, phases/inception.md]
+- [x] **Étape 17 — Traçabilité et documentation.** `traceability.json`, `code-summary.md`, `source-manifest.json`, et le glossaire français-anglais amorcé. [team.md Code Style]
 
 ## Ce qui n'est pas fait ici, volontairement
 

@@ -72,11 +72,13 @@ export class ProbeApplication implements IpcBackend {
       });
     } catch (error) {
       if (error instanceof UnencryptedDatabaseError || error instanceof InvalidEncryptionKeyError) {
-        throw new IpcBackendError('DATABASE_UNAVAILABLE', error.message);
+        return Promise.reject(new IpcBackendError('DATABASE_UNAVAILABLE', error.message));
       }
-      throw new IpcBackendError(
-        'DATABASE_FAILED',
-        error instanceof Error ? error.message : String(error),
+      return Promise.reject(
+        new IpcBackendError(
+          'DATABASE_FAILED',
+          error instanceof Error ? error.message : String(error),
+        ),
       );
     }
   }
@@ -84,9 +86,11 @@ export class ProbeApplication implements IpcBackend {
   writeProbe(request: WriteProbeRequest): Promise<WriteProbeResponse> {
     const database = this.#database;
     if (database === undefined || database.isClosed) {
-      throw new IpcBackendError(
-        'DATABASE_UNAVAILABLE',
-        "La base n'est pas ouverte. Ouvrez-la avant d'écrire.",
+      return Promise.reject(
+        new IpcBackendError(
+          'DATABASE_UNAVAILABLE',
+          "La base n'est pas ouverte. Ouvrez-la avant d'écrire.",
+        ),
       );
     }
     try {
@@ -98,9 +102,11 @@ export class ProbeApplication implements IpcBackend {
         total: database.countProbeEntries(),
       });
     } catch (error) {
-      throw new IpcBackendError(
-        'DATABASE_FAILED',
-        error instanceof Error ? error.message : String(error),
+      return Promise.reject(
+        new IpcBackendError(
+          'DATABASE_FAILED',
+          error instanceof Error ? error.message : String(error),
+        ),
       );
     }
   }

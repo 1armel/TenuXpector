@@ -2,10 +2,17 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node"],
-    "baseUrl": ".",
     "paths": {
-      "@pc-proof/*": ["apps/pc-proof/src/*"]
+      "@pc-proof/*": ["./apps/pc-proof/src/*"]
     }
   },
-  "include": ["scripts/**/*.ts", "tests/**/*.ts", "vitest.config.ts", "playwright.config.ts"]
+  "include": [
+    "scripts/**/*.ts",
+    "tests/**/*.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "apps/pc-proof/src/types/**/*.d.ts",
+    "apps/pc-proof/src/main/**/*.ts",
+    "apps/pc-proof/src/shared/**/*.ts"
+  ]
 }

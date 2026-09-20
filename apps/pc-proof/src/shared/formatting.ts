@@ -37,7 +37,8 @@ export function formatAmountFcfa(amountFcfa: number): string {
   let grouped = '';
   for (let index = 0; index < digits.length; index += 1) {
     const remaining = digits.length - index;
-    grouped += digits[index];
+    const digit = digits[index] ?? '';
+    grouped += digit;
     if (remaining > 1 && remaining % 3 === 1) grouped += GROUP_SEPARATOR;
   }
   return `${negative ? '-' : ''}${grouped}${GROUP_SEPARATOR}${CURRENCY_LABEL}`;
@@ -68,8 +69,10 @@ function doualaParts(instant: Date): DoualaParts {
     second: '2-digit',
     hour12: false,
   });
-  const parts = new Map(formatter.formatToParts(instant).map((part) => [part.type, part.value]));
-  const read = (type: string): string => parts.get(type) ?? '00';
+  const parts = new Map<Intl.DateTimeFormatPartTypes, string>(
+    formatter.formatToParts(instant).map((part) => [part.type, part.value]),
+  );
+  const read = (type: Intl.DateTimeFormatPartTypes): string => parts.get(type) ?? '00';
   return {
     day: read('day'),
     month: read('month'),

@@ -41,13 +41,13 @@
 
 - **Skeleton Stance**: on
 
-- **Active Unit**: u1-pc-proof
 
-- **Unit State**: paused
 
-- **Unit Pause Reason**: Push analysis: pre-push hook fails on pnpm typecheck (TS5101 baseUrl deprecated under TypeScript 6).
 
-- **Unit Next Action**: Fix tsconfig TS5101 so pre-push typecheck passes, then resume Code Generation plan approval for u1-pc-proof.
+
+- **Active Unit**: u2-foundation
+
+- **Unit State**: in-progress
 
 ## Phase Progress
 <!-- Status values: Pending, Active, Verified, Skipped -->
@@ -110,7 +110,7 @@ Per unit: [TBD]
 - **Current Stage**: functional-design
 - **Next Stage**: code-generation
 - **Status**: Running
-- **Last Updated**: 2026-09-19T21:19:41Z
+- **Last Updated**: 2026-09-20T22:03:01Z
 
 ## Session Resume Point
 - **Last Completed Stage**: units-generation

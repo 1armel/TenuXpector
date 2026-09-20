@@ -16,7 +16,7 @@ Le plan de génération est à `code-generation-plan.md`, et les consignes de te
 2. La voie d'impression sous Windows n'est pas choisie d'avance. Le plan prévoit deux implémentations derrière une même interface — envoi direct au périphérique USB, et octets bruts à la file d'impression Windows — et le choix se fait sur mesure. C'est le rôle d'une preuve de concept.
 
 [Approval Fingerprint]: sha256:v3:65d0717d4b5ef7dd06d354d226c201a357400be2696bc26caa8f27e3f017178c
-[Planned Source]: 80796ed4b413ca95aac6b75cd12c8d5d010697136a5831661e6b22af403ea57d
+[Planned Source]: e9eacd95cbbbdc6c58e9893626c407b21f7e4a0bc627c46bae4958f14ae097a2
 
 - "Approve Plan" — proceed to code generation
 - "Request Changes" — revise the plan

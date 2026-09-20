@@ -26,23 +26,39 @@ export default defineConfig({
     root,
     environment: 'node',
     include: [
+      // Racine du dépôt (commande `pnpm test` / chemins absolus).
       'apps/**/tests/**/*.spec.ts',
       'apps/**/tests/**/*.spec.tsx',
       'packages/**/tests/**/*.spec.ts',
       'tests/tooling/**/*.spec.ts',
       'tests/resilience/**/*.spec.ts',
+      // Relatif à `--dir apps/pc-proof` (commande unitaire de l'unité).
+      'tests/**/*.spec.ts',
+      'tests/**/*.spec.tsx',
     ],
-    exclude: ['**/node_modules/**', '**/dist/**', '**/out/**', 'tests/e2e/**'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/out/**', 'tests/e2e/**', '**/doubles/**'],
     testTimeout: 30_000,
     hookTimeout: 30_000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary'],
       reportsDirectory: 'coverage',
-      include: ['apps/pc-proof/src/**/*.ts', 'apps/pc-proof/src/**/*.tsx'],
+      include: [
+        'apps/pc-proof/src/**/*.ts',
+        'apps/pc-proof/src/**/*.tsx',
+        // Même périmètre quand `--dir apps/pc-proof` recentre la racine.
+        'src/**/*.ts',
+        'src/**/*.tsx',
+      ],
       // Exclusions explicites, et aucune autre (unit-test-instructions.md) :
       // fichiers de types, fichiers générés, migrations, jeu de démonstration.
-      exclude: ['**/*.d.ts', '**/generated/**', '**/seed/**'],
+      exclude: [
+        '**/*.d.ts',
+        '**/generated/**',
+        '**/migrations.ts',
+        '**/seed/**',
+        '**/doubles/**',
+      ],
       thresholds: {
         lines: 80,
         branches: 80,

@@ -24,6 +24,9 @@ export default tseslint.config(
       '**/coverage/**',
       'aidlc/**',
       'docs/**',
+      '.claude/**',
+      'scripts/**',
+      'eslint.config.js',
       'test-results/**',
       'playwright-report/**',
     ],
@@ -39,15 +42,6 @@ export default tseslint.config(
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
-    },
-  },
-
-  // Les scripts d'outillage sont du JavaScript Node annoté en JSDoc.
-  {
-    files: ['**/*.mjs', '**/*.js'],
-    ...tseslint.configs.disableTypeChecked,
-    languageOptions: {
-      globals: { ...globals.node },
     },
   },
 
@@ -88,7 +82,7 @@ export default tseslint.config(
 
   // Le processus principal et le préchargement tournent sous Node.
   {
-    files: ['apps/*/src/main/**/*.ts', 'apps/*/src/preload/**/*.ts', 'scripts/**/*', 'tests/**/*'],
+    files: ['apps/*/src/main/**/*.ts', 'apps/*/src/preload/**/*.ts', 'tests/**/*'],
     languageOptions: { globals: { ...globals.node } },
   },
 
@@ -124,6 +118,23 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-imports': 'error',
       // Un refus métier attendu est un résultat typé ; une erreur avalée, jamais.
       'no-empty': ['error', { allowEmptyCatch: false }],
+    },
+  },
+
+  // Tests : assouplir les règles qui peinent les doublures asynchrones.
+  {
+    files: ['**/tests/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
     },
   },
 

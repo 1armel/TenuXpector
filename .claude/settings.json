@@ -37,7 +37,7 @@
         ]
       },
       {
-        "matcher": "Read|NotebookRead|Edit|MultiEdit|Write|NotebookEdit|LS|Glob|Grep|Bash",
+        "matcher": "Read|NotebookRead|Edit|MultiEdit|Write|NotebookEdit|LS|Glob|Grep|Bash|Shell",
         "hooks": [
           { "type": "command", "command": "aidlc engine hook state-transition-guard" },
           { "type": "command", "command": "aidlc engine hook reviewer-scope" },
@@ -45,7 +45,7 @@
         ]
       },
       {
-        "matcher": "Edit|MultiEdit|Write|NotebookEdit|Bash|Task|Agent",
+        "matcher": "Edit|MultiEdit|Write|NotebookEdit|Bash|Shell|Task|Agent",
         "hooks": [
           { "type": "command", "command": "aidlc engine hook plan-approval-guard" }
         ]

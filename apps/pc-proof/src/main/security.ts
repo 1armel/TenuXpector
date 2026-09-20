@@ -188,11 +188,14 @@ export interface GuardableSession {
 export function applySessionPolicy(session: GuardableSession): void {
   session.webRequest.onHeadersReceived((details, callback) => {
     const headers: Record<string, string[]> = { ...(details.responseHeaders ?? {}) };
-    for (const key of Object.keys(headers)) {
-      if (key.toLowerCase() === 'content-security-policy') delete headers[key];
+    const nextHeaders: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(headers)) {
+      if (key.toLowerCase() !== 'content-security-policy') {
+        nextHeaders[key] = value;
+      }
     }
-    headers['Content-Security-Policy'] = [CONTENT_SECURITY_POLICY];
-    callback({ responseHeaders: headers });
+    nextHeaders['Content-Security-Policy'] = [CONTENT_SECURITY_POLICY];
+    callback({ responseHeaders: nextHeaders });
   });
 
   session.setPermissionRequestHandler((_webContents, _permission, callback) => {

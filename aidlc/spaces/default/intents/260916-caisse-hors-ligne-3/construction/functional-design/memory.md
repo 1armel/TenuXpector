@@ -2,13 +2,14 @@
 > This file is kept up to date automatically while the stage runs. Add observations at the review step, not by editing here directly.
 
 ## Interpretations
-<!-- example: 2026-05-29T10:14:32Z — chose REST over GraphQL; the consuming team only needs CRUD, revisit if subscriptions land -->
+- 2026-09-20T23:40:00Z — Q1-B = persister Category/Product/SellingUnit dans u2-foundation pour accélérer la livraison ; UI/import/recherche restent U4 ; pas de tables vente/stock.
+- 2026-09-20T23:40:00Z — FR1.7 seed « 30 jours de ventes » interprété comme différé : seed U2 = tenant + 3 users + 200 articles ; ventes quand le schéma caisse existe.
 
 ## Deviations
-<!-- example: 2026-05-29T10:14:32Z — skipped the optional caching layer the stage prose suggested; the dataset is small enough that it adds risk -->
+- 2026-09-20T23:40:00Z — Catalogue schéma hors frontières strictes unit-of-work (composant Catalog = U4) ; choisi volontairement pour vitesse (réponse utilisateur Q1-B).
 
 ## Tradeoffs
-<!-- example: 2026-05-29T10:14:32Z — picked TDD over BDD this run; the team is unit-first and the domain is well-understood -->
+- 2026-09-20T23:40:00Z — B plutôt que C : catalogue sans squelette ventes pour éviter contraintes append-only ventes trop tôt ; A aurait coûté une migration catalogue plus tard.
 
 ## Open questions
-<!-- example: 2026-05-29T10:14:32Z — confirm the retention window with compliance before the next stage hardens the schema -->
+- 2026-09-20T23:40:00Z — Confirmer à U5 que le seed ventes (30 jours) sera ajouté dès que les tables ventes existent, pour fermer FR1.7 au complet.

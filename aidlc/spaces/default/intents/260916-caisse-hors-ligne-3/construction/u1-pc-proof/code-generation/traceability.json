@@ -1,0 +1,49 @@
+{
+  "stage": "code-generation",
+  "unit": "u1-pc-proof",
+  "upstream_ids": ["NFR4", "NFR8", "NFR11", "NFR13", "NFR14", "NFR17"],
+  "coverage": [
+    {
+      "id": "NFR4",
+      "status": "OK",
+      "target": "apps/pc-proof/src/main/database/database.ts; tests/resilience/power-cut.spec.ts"
+    },
+    {
+      "id": "NFR8",
+      "status": "OK",
+      "target": "apps/pc-proof/src/main/security.ts; apps/pc-proof/src/main/ipc.ts; apps/pc-proof/src/main/database/database.ts; apps/pc-proof/src/main/database/encryption-key.ts; scripts/check-staged-secrets.mjs"
+    },
+    {
+      "id": "NFR11",
+      "status": "OK",
+      "target": "tsconfig.base.json; eslint.config.js; vitest.config.ts; apps/pc-proof/tests/**/*.spec.ts"
+    },
+    {
+      "id": "NFR13",
+      "status": "OK",
+      "target": "apps/pc-proof/src/main/printing/receipt-printer.ts; apps/pc-proof/src/main/printing/escpos.ts; apps/pc-proof/src/main/printing/receipt.ts; docs/adr/002-thermal-print-path.md"
+    },
+    {
+      "id": "NFR14",
+      "status": "OK",
+      "target": "scripts/check-forbidden-word.mjs; scripts/install-git-hooks.mjs"
+    },
+    {
+      "id": "NFR17",
+      "status": "OK",
+      "target": "tests/resilience/power-cut.spec.ts; apps/pc-proof/src/main/database/database.ts"
+    }
+  ],
+  "reverse": [
+    {
+      "id": "DEC-04",
+      "status": "OK",
+      "target": "apps/pc-proof/src/shared/formatting.ts (montants entiers FCFA)"
+    },
+    {
+      "id": "NFR15",
+      "status": "Deferred",
+      "target": "Préparation du squelette E2E Electron (tests/e2e/pc-proof.spec.ts) ; parité tablette hors U1"
+    }
+  ]
+}

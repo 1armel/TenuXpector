@@ -761,6 +761,11 @@ function shellUsesDynamicEvaluation(command: string): boolean {
   return false;
 }
 
+/** Cursor names the shell tool `Shell`; Claude Code uses `Bash`. Treat both. */
+function isShellTool(toolName: string): boolean {
+  return /^(bash|shell|execute_bash|local_shell_call)$/i.test(toolName);
+}
+
 async function mutationIntent(
   projectDir: string,
   toolName: string,
@@ -770,7 +775,7 @@ async function mutationIntent(
   let targets: string[] = [];
   let opaqueShell = false;
   let shellCommand: string | null = null;
-  if (toolName === "Bash") {
+  if (isShellTool(toolName)) {
     const command = toolInput?.command;
     if (typeof command !== "string") {
       return { targets: [], opaqueShell: false, shellCommand: null };
@@ -892,7 +897,7 @@ export async function run(input: string): Promise<number> {
     DISPATCH_TOOLS.has(toolName) && subagentType === GUARDED_AGENT;
   if (SAFE_READ_TOOLS.has(toolName)) return 0;
   const mutationCapable =
-    toolName === "Bash" ||
+    isShellTool(toolName) ||
     WRITE_TOOLS.has(toolName) ||
     (!DISPATCH_TOOLS.has(toolName) && toolName.length > 0);
   if (!guardedDispatch && !mutationCapable) return 0;
@@ -928,7 +933,7 @@ export async function run(input: string): Promise<number> {
       (guardedDispatch && explicitPlanDispatch);
     if (!codeGenerationRelevant) return 0;
     const knownMutationTool =
-      toolName === "Bash" || WRITE_TOOLS.has(toolName);
+      isShellTool(toolName) || WRITE_TOOLS.has(toolName);
     const mutation = guardedDispatch
       ? { targets: [], opaqueShell: false, shellCommand: null }
       : knownMutationTool

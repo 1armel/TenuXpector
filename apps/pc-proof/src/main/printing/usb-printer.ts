@@ -26,7 +26,7 @@ export const nodeUsbDeviceAccess: UsbDeviceAccess = {
     // Un port Windows (`\\.\USB001`, `COM3`) n'est pas toujours visible via
     // `existsSync`. On le considère alors présent et on laisse l'écriture
     // trancher : mieux vaut un échec d'écriture explicite qu'un refus a priori.
-    if (/^\\\\\.\\/.test(devicePath) || /^COM\d+$/i.test(devicePath)) return true;
+    if (devicePath.startsWith('\\\\.\\') || /^COM\d+$/i.test(devicePath)) return true;
     return existsSync(devicePath);
   },
   write(devicePath, bytes) {

@@ -153,7 +153,7 @@ export function isKnownChannel(channel: string): channel is IpcChannelName {
  */
 export function payloadByteLength(payload: unknown): number {
   try {
-    return new TextEncoder().encode(JSON.stringify(payload) ?? '').length;
+    return new TextEncoder().encode(JSON.stringify(payload)).length;
   } catch {
     // Une charge non sérialisable (cycle, BigInt) est traitée comme démesurée :
     // elle ne peut de toute façon pas traverser le pont.
@@ -164,12 +164,16 @@ export function payloadByteLength(payload: unknown): number {
 /**
  * Valide une charge contre un schéma et rend un `Result`. Aucun `throw` ne
  * franchit cette fonction.
+ *
+ * Le schéma est `ZodType<unknown>` (pas un générique de sortie) pour que le
+ * registre `IPC_CONTRACT` — union de trois canaux — reste assignable sous
+ * `exactOptionalPropertyTypes` sans assertion ni `any`.
  */
-export function validate<T>(
-  schema: z.ZodType<T>,
+export function validate(
+  schema: z.ZodType,
   payload: unknown,
   code: 'INVALID_REQUEST' | 'INVALID_RESPONSE',
-): IpcResult<T> {
+): IpcResult<unknown> {
   const parsed = schema.safeParse(payload);
   if (parsed.success) return { ok: true, value: parsed.data };
   const detail = parsed.error.issues

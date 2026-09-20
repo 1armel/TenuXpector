@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "stage": "code-generation",
+  "unit": "u1-pc-proof",
+  "writes": [
+    {
+      "path": "apps/pc-proof/electron.vite.config.ts"
+    },
+    {
+      "path": "apps/pc-proof/package.json"
+    },
+    {
+      "path": "apps/pc-proof/tsconfig.json"
+    },
+    {
+      "path": "apps/pc-proof/src/types/better-sqlite3-multiple-ciphers.d.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/types/css-modules.d.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/main.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/bootstrap.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/ipc.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/probe-application.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/security.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/database/database.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/database/encryption-key.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/database/migrations.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/database/uuid-v7.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/escpos.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/receipt.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/receipt-printer.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/preview-printer.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/usb-printer.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/spooler-printer.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/main/printing/printer-factory.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/preload/preload.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/preload/bridge.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/renderer/index.html"
+    },
+    {
+      "path": "apps/pc-proof/src/renderer/main.tsx"
+    },
+    {
+      "path": "apps/pc-proof/src/renderer/App.tsx"
+    },
+    {
+      "path": "apps/pc-proof/src/renderer/styles.css"
+    },
+    {
+      "path": "apps/pc-proof/src/shared/formatting.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/shared/ipc-contract.ts"
+    },
+    {
+      "path": "apps/pc-proof/src/shared/result.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/doubles/electron.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/main.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/bridge.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/database.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/printer.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/probe-application.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/bootstrap.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/preload-bridge.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/app.spec.tsx"
+    },
+    {
+      "path": "apps/pc-proof/tests/shared-helpers.spec.ts"
+    },
+    {
+      "path": "apps/pc-proof/tests/entry-smoke.spec.ts"
+    },
+    {
+      "path": "tests/resilience/power-cut.spec.ts"
+    },
+    {
+      "path": "tests/resilience/power-cut-worker.ts"
+    },
+    {
+      "path": "tests/e2e/pc-proof.spec.ts"
+    },
+    {
+      "path": "docs/adr/001-encrypted-database-engine.md"
+    },
+    {
+      "path": "docs/adr/002-thermal-print-path.md"
+    },
+    {
+      "path": "docs/adr/003-electron-version.md"
+    },
+    {
+      "path": "docs/glossaire-fr-en.md"
+    },
+    {
+      "path": "tsconfig.json"
+    },
+    {
+      "path": "vitest.config.ts"
+    },
+    {
+      "path": "eslint.config.js"
+    },
+    {
+      "path": "playwright.config.ts"
+    },
+    {
+      "path": "package.json"
+    },
+    {
+      "path": "pnpm-workspace.yaml"
+    },
+    {
+      "path": "tsconfig.base.json"
+    }
+  ]
+}
