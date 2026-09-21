@@ -8,9 +8,9 @@ Aucune histoire utilisateur n'a été produite : l'étape correspondante est éc
 |---|---|---|---|
 | U1 | `u1-pc-proof` | Aucune exigence fonctionnelle : l'unité prouve NFR4, NFR8, NFR17 et prépare NFR15 | 0 |
 | U2 | `u2-foundation` | FR1.2, FR1.3, FR1.4, FR1.5, FR1.6, FR1.7, FR1.8, FR1.9, FR4.8, FR6.1, FR7.1 | 11 |
-| U3 | `u3-domain` | FR2.1 à FR2.10, FR4.16 | 11 |
+| U3 | `u3-domain` | FR2.1 à FR2.10 | 10 |
 | U4 | `u4-catalog` | FR3.1 à FR3.8 | 8 |
-| U5 | `u5-register` | FR4.1 à FR4.7, FR4.9 à FR4.15 | 14 |
+| U5 | `u5-register` | FR4.1 à FR4.7, FR4.9 à FR4.16 | 15 |
 | U6 | `u6-printing` | FR5.1 à FR5.7 | 7 |
 | U7 | `u7-audit-alerts` | FR6.2 à FR6.6 | 5 |
 | U8 | `u8-sync` | FR7.2, FR7.3, FR7.4, FR7.5 | 4 |

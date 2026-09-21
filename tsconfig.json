@@ -4,7 +4,8 @@
     "types": ["node"],
     "paths": {
       "@pc-proof/*": ["./apps/pc-proof/src/*"],
-      "@tenu/db": ["./packages/db/src/index.ts"]
+      "@tenu/db": ["./packages/db/src/index.ts"],
+      "@tenu/domain": ["./packages/domain/src/index.ts"]
     }
   },
   "include": [
@@ -16,6 +17,7 @@
     "apps/pc-proof/src/main/**/*.ts",
     "apps/pc-proof/src/shared/**/*.ts",
     "packages/db/src/**/*.ts",
-    "packages/db/src/**/*.d.ts"
+    "packages/db/src/**/*.d.ts",
+    "packages/domain/src/**/*.ts"
   ]
 }

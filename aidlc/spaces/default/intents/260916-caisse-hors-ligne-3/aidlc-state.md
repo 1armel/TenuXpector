@@ -7,7 +7,7 @@
 - **Scope**: spec-driven-dual-target-ops
 - **Start Date**: 2026-09-16T20:38:12Z
 - **State Version**: 8
-- **Active Agent**: aidlc-architect-agent
+- **Active Agent**: aidlc-quality-agent
 - **Worktree Path**:
 - **Bolt Refs**:
 - **Practices Affirmed Timestamp**: 2026-09-17T17:28:54Z
@@ -32,10 +32,10 @@
 ## Execution Plan Summary
 - **Total Stages**: 13
 - **Completed**: 10
-- **In Progress**: functional-design
+- **In Progress**: build-and-test
 
 ## Runtime State
-- **Revision Count**: 2
+- **Revision Count**: 3
 
 - **Construction Iteration**: unit-major
 
@@ -49,9 +49,9 @@
 
 
 
-- **Active Unit**: u3-domain
 
-- **Unit State**: in-progress
+
+
 
 ## Phase Progress
 <!-- Status values: Pending, Active, Verified, Skipped -->
@@ -92,12 +92,12 @@
 
 ### CONSTRUCTION PHASE
 Per unit: [TBD]
-- [-] functional-design — EXECUTE
+- [S] functional-design — EXECUTE
 - [ ] nfr-requirements — SKIP
 - [ ] nfr-design — SKIP
 - [ ] infrastructure-design — SKIP
-- [ ] code-generation — EXECUTE
-- [ ] build-and-test — EXECUTE
+- [S] code-generation — EXECUTE
+- [-] build-and-test — EXECUTE
 - [ ] ci-pipeline — SKIP
 
 ### OPERATION PHASE
@@ -111,12 +111,12 @@ Per unit: [TBD]
 
 ## Current Status
 - **Lifecycle Phase**: CONSTRUCTION
-- **Current Stage**: functional-design
-- **Next Stage**: code-generation
+- **Current Stage**: build-and-test
+- **Next Stage**: none
 - **Status**: Running
-- **Last Updated**: 2026-09-20T23:41:59Z
+- **Last Updated**: 2026-09-21T10:30:52Z
 
 ## Session Resume Point
 - **Last Completed Stage**: units-generation
-- **Next Action**: Execute Functional Design
+- **Next Action**: Execute Build and Test
 - **Pending Artifacts**: none

@@ -20,7 +20,7 @@ Confirme-t-on les unités entières exclusives dans `packages/domain` ?
 - B. Autre représentation (préciser)
 - X. Other (please specify)
 
-[Answer]:
+[Answer]: A
 
 ## Q2 — Quantité en stock (RG-10)
 
@@ -30,7 +30,7 @@ Comment calcule-t-on la quantité d'un article ?
 - B. Autre (préciser)
 - X. Other (please specify)
 
-[Answer]:
+[Answer]: A
 
 ## Q3 — Stock négatif (DEC-03)
 
@@ -40,7 +40,7 @@ Une vente avec stock théorique insuffisant ?
 - B. Bloquer la vente si stock insuffisant
 - X. Other (please specify)
 
-[Answer]:
+[Answer]: A
 
 ## Q4 — CUMP (RG-11)
 
@@ -50,7 +50,7 @@ Recalcul du coût unitaire moyen pondéré ?
 - B. Autre formule (préciser)
 - X. Other (please specify)
 
-[Answer]:
+[Answer]: A
 
 ## Q5 — Emprise des composants U3
 
@@ -60,4 +60,22 @@ Quels composants livrer dans cette unité (tous purs) ?
 - B. Sous-ensemble (préciser lesquels et pourquoi)
 - X. Other (please specify)
 
-[Answer]:
+[Answer]: A
+
+## Consolidated Summary Confirmation
+
+Résumé de tes réponses :
+
+- **Nombres** : entiers exclusifs (FCFA, millièmes qty, millièmes CUMP, points de base) — aucun flottant dans `domain` (Q1-A / DEC-04).
+- **Quantité** : somme signée des mouvements ; pas de champ quantité mutable ; état à une date (Q2-A / RG-10).
+- **Stock négatif** : vente jamais bloquée ; négatif possible ; AL-09 (Q3-A / DEC-03).
+- **CUMP** : recalcul à chaque entrée, y compris stock ≤ 0 ; reste ≥ 0 (Q4-A / RG-11).
+- **Emprise** : les 7 composants purs — StockLedger, Costing, Pricing, SaleCalculator, CashSession, AlertEngine, Reporting (Q5-A).
+- **Hors scope** : base, UI, réseau ; couverture ≥ 90 % lignes et branches.
+
+Does this all look correct before I generate the artifact?
+
+- Looks correct
+- Request changes
+
+[Answer]: Looks correct

@@ -25007,12 +25007,16 @@ export function latestMainWorkflowStageRunFloorForProject(
   intent?: string,
   space?: string,
 ): string {
+  // Always sort: callers often pass unsorted shard streams. Treating any
+  // provided `auditRows` as pre-sorted made unit-complete miss UNIT_STARTED
+  // rows after STAGE_JUMPED (start wrote STAGE_JUMPED floor; complete
+  // resolved WORKFLOW_STARTED from unordered tail).
   return latestMainWorkflowStageRunFloorFromRows(
     auditRows ?? readAuditShardEvents(projectDir, intent, space),
     slug,
     unitMajor,
     unit,
-    auditRows !== undefined,
+    false,
   );
 }
 

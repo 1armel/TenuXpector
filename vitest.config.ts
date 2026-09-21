@@ -16,6 +16,7 @@ export default defineConfig({
     alias: {
       '@pc-proof': fileURLToPath(new URL('./apps/pc-proof/src', import.meta.url)),
       '@tenu/db': fileURLToPath(new URL('./packages/db/src/index.ts', import.meta.url)),
+      '@tenu/domain': fileURLToPath(new URL('./packages/domain/src/index.ts', import.meta.url)),
       electron: fileURLToPath(new URL('./apps/pc-proof/tests/doubles/electron.ts', import.meta.url)),
     },
   },
