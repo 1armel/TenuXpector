@@ -14232,7 +14232,348 @@ function requireClient() {
   return client.exports;
 }
 var clientExports = requireClient();
+function RoleGate({ role, allow, children }) {
+  if (!allow.includes(role)) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children });
+}
+function ArticleForm({
+  role,
+  mode,
+  values,
+  fieldError,
+  onChange,
+  onSubmit
+}) {
+  const readOnly = mode === "view" || role === "vendeur";
+  function setField(key, value) {
+    onChange({ ...values, [key]: value });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "form",
+    {
+      className: "article-form",
+      "data-testid": "article-form",
+      onSubmit: (event) => {
+        event.preventDefault();
+        if (!readOnly) onSubmit();
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { children: [
+          "Désignation",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              "data-testid": "article-designation",
+              value: values.designation,
+              readOnly,
+              onChange: (event) => {
+                setField("designation", event.target.value);
+              }
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { children: [
+          "Unité de base",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              "data-testid": "article-base-unit",
+              value: values.baseUnit,
+              readOnly,
+              onChange: (event) => {
+                setField("baseUnit", event.target.value);
+              }
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { children: [
+          "Prix de vente (FCFA)",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              "data-testid": "article-reference-price",
+              inputMode: "numeric",
+              value: values.referencePrice,
+              readOnly,
+              onChange: (event) => {
+                setField("referencePrice", event.target.value);
+              }
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { children: [
+          "Prix plancher (FCFA)",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              "data-testid": "article-floor-price",
+              inputMode: "numeric",
+              value: values.floorPrice,
+              readOnly,
+              onChange: (event) => {
+                setField("floorPrice", event.target.value);
+              }
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(RoleGate, { role, allow: ["gerant", "proprietaire"], children: /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { "data-testid": "article-purchase-cost-field", children: [
+          "Prix d'achat (FCFA)",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              "data-testid": "article-purchase-cost",
+              inputMode: "numeric",
+              value: values.averagePurchaseCost,
+              readOnly,
+              onChange: (event) => {
+                setField("averagePurchaseCost", event.target.value);
+              }
+            }
+          )
+        ] }) }),
+        fieldError !== null ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "article-form__error", "data-testid": "article-field-error", role: "alert", children: fieldError }) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(RoleGate, { role, allow: ["gerant", "proprietaire"], children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", "data-testid": "article-save", disabled: readOnly, children: "Enregistrer" }) })
+      ]
+    }
+  );
+}
+function CatalogResultList({
+  items,
+  selectedId,
+  onSelect,
+  empty,
+  loading
+}) {
+  if (loading) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("p", { "data-testid": "catalog-results-loading", role: "status", children: "Recherche…" });
+  }
+  if (empty) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("p", { "data-testid": "catalog-results-empty", role: "status", children: "Aucun article trouvé." });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "ul",
+    {
+      id: "catalog-result-list",
+      role: "listbox",
+      className: "catalog-results",
+      "data-testid": "catalog-result-list",
+      children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { role: "option", "aria-selected": item.id === selectedId, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          type: "button",
+          "data-testid": `catalog-result-${item.id}`,
+          className: item.id === selectedId ? "is-selected" : void 0,
+          onClick: () => {
+            onSelect(item.id);
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item.name }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "catalog-results__meta", children: [
+              item.internalCode,
+              " · ",
+              item.referencePrice.toLocaleString("fr-FR"),
+              " FCFA"
+            ] })
+          ]
+        }
+      ) }, item.id))
+    }
+  );
+}
+function CatalogSearch({
+  query,
+  onQueryChange,
+  disabled = false
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "catalog-search", "data-testid": "catalog-search", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Recherche" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "input",
+      {
+        type: "search",
+        role: "combobox",
+        "aria-autocomplete": "list",
+        "aria-controls": "catalog-result-list",
+        "aria-expanded": query.trim().length > 0,
+        "data-testid": "catalog-search-input",
+        value: query,
+        disabled,
+        placeholder: "Désignation, code ou code-barres",
+        onChange: (event) => {
+          onQueryChange(event.target.value);
+        }
+      }
+    )
+  ] });
+}
+const EMPTY_FORM = {
+  designation: "",
+  baseUnit: "piece",
+  referencePrice: "",
+  floorPrice: "",
+  averagePurchaseCost: ""
+};
+function CatalogShell({ bridge, session }) {
+  const [query, setQuery] = reactExports.useState("");
+  const [loading, setLoading] = reactExports.useState(false);
+  const [items, setItems] = reactExports.useState([]);
+  const [selectedId, setSelectedId] = reactExports.useState(null);
+  const [mode, setMode] = reactExports.useState("view");
+  const [values, setValues] = reactExports.useState(EMPTY_FORM);
+  const [fieldError, setFieldError] = reactExports.useState(null);
+  const [status, setStatus] = reactExports.useState("Saisissez un fragment pour rechercher.");
+  reactExports.useEffect(() => {
+    const trimmed = query.trim();
+    if (trimmed.length === 0) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
+    let cancelled = false;
+    const handle = window.setTimeout(() => {
+      setLoading(true);
+      void bridge.catalogSearch({
+        session: {
+          tenantId: session.tenantId,
+          actorUserId: session.actorUserId,
+          deviceId: session.deviceId,
+          role: session.role
+        },
+        query: trimmed,
+        limit: 50
+      }).then((result) => {
+        if (cancelled) return;
+        setLoading(false);
+        if (!result.ok) {
+          setStatus(`${result.code} — ${result.message}`);
+          setItems([]);
+          return;
+        }
+        setItems(result.value.items);
+        setStatus(
+          result.value.items.length === 0 ? "Aucun article trouvé." : `${String(result.value.items.length)} résultat(s)`
+        );
+      });
+    }, 60);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(handle);
+    };
+  }, [bridge, query, session]);
+  async function openProduct(productId) {
+    setSelectedId(productId);
+    setFieldError(null);
+    const result = await bridge.catalogGetProduct({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.actorUserId,
+        deviceId: session.deviceId,
+        role: session.role
+      },
+      productId
+    });
+    if (!result.ok) {
+      setStatus(`${result.code} — ${result.message}`);
+      return;
+    }
+    const product = result.value.product;
+    if (product === null) {
+      setStatus("Article introuvable.");
+      return;
+    }
+    applyProduct(product, session.role === "vendeur" ? "view" : "update");
+  }
+  function applyProduct(product, nextMode) {
+    setMode(nextMode);
+    setValues({
+      designation: product.name,
+      baseUnit: product.baseUnit,
+      referencePrice: String(product.referencePrice),
+      floorPrice: String(product.floorPrice),
+      averagePurchaseCost: product.averagePurchaseCost === void 0 || product.averagePurchaseCost === null ? "" : String(product.averagePurchaseCost)
+    });
+  }
+  function startCreate() {
+    setSelectedId(null);
+    setMode("create");
+    setValues(EMPTY_FORM);
+    setFieldError(null);
+    setStatus("Nouvelle fiche — quatre champs minimum.");
+  }
+  async function save() {
+    setFieldError(null);
+    const referencePrice = Number(values.referencePrice);
+    const floorPrice = Number(values.floorPrice);
+    if (!Number.isInteger(referencePrice) || !Number.isInteger(floorPrice)) {
+      setFieldError("Les montants doivent être des entiers FCFA.");
+      return;
+    }
+    const result = await bridge.catalogSaveProduct({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.actorUserId,
+        deviceId: session.deviceId,
+        role: session.role
+      },
+      mode: mode === "create" ? "create" : "update",
+      fields: {
+        designation: values.designation,
+        baseUnit: values.baseUnit,
+        referencePrice,
+        floorPrice,
+        ...mode === "update" && selectedId !== null ? { productId: selectedId } : {},
+        ...values.averagePurchaseCost.trim().length > 0 ? { averagePurchaseCost: Number(values.averagePurchaseCost) } : {}
+      }
+    });
+    if (!result.ok) {
+      setFieldError(`${result.code} — ${result.message}`);
+      return;
+    }
+    setSelectedId(result.value.productId);
+    setMode("update");
+    setStatus(`Article enregistré (${result.value.internalCode}).`);
+    setQuery(values.designation);
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "catalog-shell", "data-testid": "catalog-shell", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "catalog-shell__header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Catalogue" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RoleGate, { role: session.role, allow: ["gerant", "proprietaire"], children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", "data-testid": "catalog-new-article", onClick: startCreate, children: "Nouvel article" }) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "catalog-shell__panes", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "catalog-shell__search-pane", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CatalogSearch, { query, onQueryChange: setQuery }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CatalogResultList,
+          {
+            items,
+            selectedId,
+            empty: !loading && query.trim().length > 0 && items.length === 0,
+            loading,
+            onSelect: (productId) => {
+              void openProduct(productId);
+            }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "catalog-shell__article-pane", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ArticleForm,
+        {
+          role: session.role,
+          mode,
+          values,
+          fieldError,
+          onChange: setValues,
+          onSubmit: () => {
+            void save();
+          }
+        }
+      ) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "catalog-shell__status", "data-testid": "catalog-status", role: "status", children: status })
+  ] });
+}
 function App() {
+  const [tab, setTab] = reactExports.useState("preuve");
   const [status, setStatus] = reactExports.useState({
     tone: "idle",
     text: "Prêt. Ouvrez la base pour commencer."
@@ -14241,6 +14582,8 @@ function App() {
   const [lastWrite, setLastWrite] = reactExports.useState();
   const [lastPrint, setLastPrint] = reactExports.useState();
   const [busy, setBusy] = reactExports.useState(false);
+  const [role, setRole] = reactExports.useState("gerant");
+  const [catalogSession, setCatalogSession] = reactExports.useState();
   async function openDatabase() {
     setBusy(true);
     try {
@@ -14250,6 +14593,16 @@ function App() {
         return;
       }
       setDatabaseInfo(result.value);
+      if (result.value.demoSession !== null) {
+        const demo = result.value.demoSession;
+        const actorUserId = role === "vendeur" ? demo.vendeurId : role === "proprietaire" ? demo.proprietaireId : demo.gerantId;
+        setCatalogSession({
+          tenantId: demo.tenantId,
+          actorUserId,
+          deviceId: "pc-proof-demo",
+          role
+        });
+      }
       setStatus({
         tone: "ok",
         text: `Base ouverte (${result.value.journalMode}, schéma v${String(result.value.schemaVersion)})`
@@ -14297,52 +14650,120 @@ function App() {
       setBusy(false);
     }
   }
+  function onRoleChange(next) {
+    setRole(next);
+    if (databaseInfo?.demoSession !== null && databaseInfo?.demoSession !== void 0) {
+      const demo = databaseInfo.demoSession;
+      setCatalogSession({
+        tenantId: demo.tenantId,
+        actorUserId: next === "vendeur" ? demo.vendeurId : next === "proprietaire" ? demo.proprietaireId : demo.gerantId,
+        deviceId: "pc-proof-demo",
+        role: next
+      });
+    }
+  }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "app", "data-testid": "pc-proof-app", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "app__header", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: "TenuXpector" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Preuve de concept PC — base chiffrée et ticket d'essai" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Preuve PC — base chiffrée, ticket d'essai et catalogue C1" })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "app__actions", "aria-label": "Actions de preuve", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: "app__tabs", "aria-label": "Sections", "data-testid": "app-tabs", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           type: "button",
-          "data-testid": "open-database",
-          disabled: busy,
+          "data-testid": "tab-preuve",
+          className: tab === "preuve" ? "is-active" : void 0,
           onClick: () => {
-            void openDatabase();
+            setTab("preuve");
           },
-          children: "Ouvrir la base"
+          children: "Preuve"
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           type: "button",
-          "data-testid": "write-probe",
-          disabled: busy || databaseInfo === void 0,
+          "data-testid": "tab-catalogue",
+          className: tab === "catalogue" ? "is-active" : void 0,
           onClick: () => {
-            void writeProbe();
+            setTab("catalogue");
           },
-          children: "Écrire une ligne"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          "data-testid": "print-probe",
-          disabled: busy,
-          onClick: () => {
-            void printProbe();
-          },
-          children: "Imprimer le ticket d'essai"
+          children: "Catalogue"
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `app__status app__status--${status.tone}`, "data-testid": "status-line", role: "status", children: status.text }),
-    databaseInfo !== void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("pre", { className: "app__panel", "data-testid": "database-info", children: JSON.stringify(databaseInfo, null, 2) }) : null,
-    lastPrint !== void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("pre", { className: "app__panel app__panel--preview", "data-testid": "print-preview", children: lastPrint.preview }) : null
+    tab === "preuve" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "app__actions", "aria-label": "Actions de preuve", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            type: "button",
+            "data-testid": "open-database",
+            disabled: busy,
+            onClick: () => {
+              void openDatabase();
+            },
+            children: "Ouvrir la base"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            type: "button",
+            "data-testid": "write-probe",
+            disabled: busy || databaseInfo === void 0,
+            onClick: () => {
+              void writeProbe();
+            },
+            children: "Écrire une ligne"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            type: "button",
+            "data-testid": "print-probe",
+            disabled: busy,
+            onClick: () => {
+              void printProbe();
+            },
+            children: "Imprimer le ticket d'essai"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "p",
+        {
+          className: `app__status app__status--${status.tone}`,
+          "data-testid": "status-line",
+          role: "status",
+          children: status.text
+        }
+      ),
+      databaseInfo !== void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("pre", { className: "app__panel", "data-testid": "database-info", children: JSON.stringify(databaseInfo, null, 2) }) : null,
+      lastPrint !== void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("pre", { className: "app__panel app__panel--preview", "data-testid": "print-preview", children: lastPrint.preview }) : null
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { "aria-label": "Catalogue", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "catalog-role", "data-testid": "catalog-role-picker", children: [
+        "Rôle de démonstration",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "select",
+          {
+            "data-testid": "catalog-role-select",
+            value: role,
+            onChange: (event) => {
+              onRoleChange(event.target.value);
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "vendeur", children: "Vendeur" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "gerant", children: "Gérant" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "proprietaire", children: "Propriétaire" })
+            ]
+          }
+        )
+      ] }),
+      catalogSession === void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { "data-testid": "catalog-need-database", children: "Ouvrez d'abord la base (onglet Preuve) pour charger le catalogue démo." }) : /* @__PURE__ */ jsxRuntimeExports.jsx(CatalogShell, { bridge: window.tenu, session: catalogSession })
+    ] })
   ] });
 }
 const rootElement = document.getElementById("root");

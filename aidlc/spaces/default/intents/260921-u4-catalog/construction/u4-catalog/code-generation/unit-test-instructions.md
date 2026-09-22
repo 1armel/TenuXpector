@@ -11,14 +11,14 @@
 Exécuter **ces** commandes (pas `pnpm test` nu pour le cycle TDD catalogue) :
 
 ```bash
-# Domain — règles Catalog C1
-pnpm exec vitest run packages/domain/src/catalog --coverage --coverage.include='packages/domain/src/catalog/**/*.ts' --coverage.thresholds.lines=90 --coverage.thresholds.branches=90
+# Domain — règles Catalog C1 (spec sous packages/domain/tests/)
+pnpm exec vitest run packages/domain/tests/catalog.spec.ts --coverage --coverage.include='packages/domain/src/catalog/**/*.ts' --coverage.thresholds.lines=90 --coverage.thresholds.branches=90
 
 # DB — persistance catalogue
-pnpm exec vitest run packages/db/src/catalog --coverage
+pnpm exec vitest run packages/db/tests/catalog-service.spec.ts --coverage
 
 # IPC / UI pc-proof — surfaces catalogue C1
-pnpm exec vitest run apps/pc-proof/src --coverage --testPathPattern='catalog'
+pnpm exec vitest run apps/pc-proof/tests/catalog.spec.tsx --coverage
 ```
 
 Porte de fin de tâche (après le Bolt) :
@@ -38,9 +38,9 @@ pnpm typecheck && pnpm lint && pnpm test
 
 | Composant | Fichiers de test cibles | Contenu min. |
 |---|---|---|
-| Catalog domain | `packages/domain/src/catalog/*.test.ts` | 10–15 : création min, plancher, code unique, recherche accents, projection vendeur |
-| Catalog db | `packages/db/src/catalog/*.test.ts` | Persist + outbox atomique ; pas de DELETE ; tenant_id |
-| IPC / UI | `apps/pc-proof/src/**/*catalog*.test.ts(x)` | Zod reject ; RoleGate ; search+save happy + 2 erreurs |
+| Catalog domain | `packages/domain/tests/catalog.spec.ts` | 10–15 : création min, plancher, code unique, recherche accents, projection vendeur |
+| Catalog db | `packages/db/tests/catalog-service.spec.ts` | Persist + outbox atomique ; pas de DELETE ; tenant_id |
+| IPC / UI | `apps/pc-proof/tests/catalog.spec.tsx` | Zod reject ; RoleGate ; search+save happy + 2 erreurs |
 
 ## Mocking
 

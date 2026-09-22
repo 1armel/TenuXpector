@@ -1,8 +1,5 @@
 /**
- * Interface minimale de la preuve PC (étape 5–6).
- *
- * Trois actions seulement : ouvrir la base, écrire une ligne, imprimer un
- * ticket d'essai. Aucune règle métier.
+ * Interface minimale de la preuve PC + onglet Catalogue C1.
  */
 import { useState, type JSX } from 'react';
 import type {
@@ -11,6 +8,8 @@ import type {
   TenuBridge,
   WriteProbeResponse,
 } from '../shared/ipc-contract';
+import { CatalogShell, type CatalogSessionProps } from './catalog/CatalogShell';
+import type { CatalogUiRole } from './catalog/RoleGate';
 
 declare global {
   interface Window {
@@ -19,6 +18,7 @@ declare global {
 }
 
 type StatusTone = 'idle' | 'ok' | 'error';
+type AppTab = 'preuve' | 'catalogue';
 
 interface StatusLine {
   tone: StatusTone;
@@ -26,6 +26,7 @@ interface StatusLine {
 }
 
 export function App(): JSX.Element {
+  const [tab, setTab] = useState<AppTab>('preuve');
   const [status, setStatus] = useState<StatusLine>({
     tone: 'idle',
     text: 'Prêt. Ouvrez la base pour commencer.',
@@ -34,6 +35,8 @@ export function App(): JSX.Element {
   const [lastWrite, setLastWrite] = useState<WriteProbeResponse | undefined>();
   const [lastPrint, setLastPrint] = useState<PrintProbeResponse | undefined>();
   const [busy, setBusy] = useState(false);
+  const [role, setRole] = useState<CatalogUiRole>('gerant');
+  const [catalogSession, setCatalogSession] = useState<CatalogSessionProps | undefined>();
 
   async function openDatabase(): Promise<void> {
     setBusy(true);
@@ -44,6 +47,21 @@ export function App(): JSX.Element {
         return;
       }
       setDatabaseInfo(result.value);
+      if (result.value.demoSession !== null) {
+        const demo = result.value.demoSession;
+        const actorUserId =
+          role === 'vendeur'
+            ? demo.vendeurId
+            : role === 'proprietaire'
+              ? demo.proprietaireId
+              : demo.gerantId;
+        setCatalogSession({
+          tenantId: demo.tenantId,
+          actorUserId,
+          deviceId: 'pc-proof-demo',
+          role,
+        });
+      }
       setStatus({
         tone: 'ok',
         text: `Base ouverte (${result.value.journalMode}, schéma v${String(result.value.schemaVersion)})`,
@@ -96,61 +114,134 @@ export function App(): JSX.Element {
     }
   }
 
+  function onRoleChange(next: CatalogUiRole): void {
+    setRole(next);
+    if (databaseInfo?.demoSession !== null && databaseInfo?.demoSession !== undefined) {
+      const demo = databaseInfo.demoSession;
+      setCatalogSession({
+        tenantId: demo.tenantId,
+        actorUserId:
+          next === 'vendeur'
+            ? demo.vendeurId
+            : next === 'proprietaire'
+              ? demo.proprietaireId
+              : demo.gerantId,
+        deviceId: 'pc-proof-demo',
+        role: next,
+      });
+    }
+  }
+
   return (
     <main className="app" data-testid="pc-proof-app">
       <header className="app__header">
         <h1>TenuXpector</h1>
-        <p>Preuve de concept PC — base chiffrée et ticket d&apos;essai</p>
+        <p>Preuve PC — base chiffrée, ticket d&apos;essai et catalogue C1</p>
       </header>
 
-      <section className="app__actions" aria-label="Actions de preuve">
+      <nav className="app__tabs" aria-label="Sections" data-testid="app-tabs">
         <button
           type="button"
-          data-testid="open-database"
-          disabled={busy}
+          data-testid="tab-preuve"
+          className={tab === 'preuve' ? 'is-active' : undefined}
           onClick={() => {
-            void openDatabase();
+            setTab('preuve');
           }}
         >
-          Ouvrir la base
+          Preuve
         </button>
         <button
           type="button"
-          data-testid="write-probe"
-          disabled={busy || databaseInfo === undefined}
+          data-testid="tab-catalogue"
+          className={tab === 'catalogue' ? 'is-active' : undefined}
           onClick={() => {
-            void writeProbe();
+            setTab('catalogue');
           }}
         >
-          Écrire une ligne
+          Catalogue
         </button>
-        <button
-          type="button"
-          data-testid="print-probe"
-          disabled={busy}
-          onClick={() => {
-            void printProbe();
-          }}
-        >
-          Imprimer le ticket d&apos;essai
-        </button>
-      </section>
+      </nav>
 
-      <p className={`app__status app__status--${status.tone}`} data-testid="status-line" role="status">
-        {status.text}
-      </p>
+      {tab === 'preuve' ? (
+        <>
+          <section className="app__actions" aria-label="Actions de preuve">
+            <button
+              type="button"
+              data-testid="open-database"
+              disabled={busy}
+              onClick={() => {
+                void openDatabase();
+              }}
+            >
+              Ouvrir la base
+            </button>
+            <button
+              type="button"
+              data-testid="write-probe"
+              disabled={busy || databaseInfo === undefined}
+              onClick={() => {
+                void writeProbe();
+              }}
+            >
+              Écrire une ligne
+            </button>
+            <button
+              type="button"
+              data-testid="print-probe"
+              disabled={busy}
+              onClick={() => {
+                void printProbe();
+              }}
+            >
+              Imprimer le ticket d&apos;essai
+            </button>
+          </section>
 
-      {databaseInfo !== undefined ? (
-        <pre className="app__panel" data-testid="database-info">
-          {JSON.stringify(databaseInfo, null, 2)}
-        </pre>
-      ) : null}
+          <p
+            className={`app__status app__status--${status.tone}`}
+            data-testid="status-line"
+            role="status"
+          >
+            {status.text}
+          </p>
 
-      {lastPrint !== undefined ? (
-        <pre className="app__panel app__panel--preview" data-testid="print-preview">
-          {lastPrint.preview}
-        </pre>
-      ) : null}
+          {databaseInfo !== undefined ? (
+            <pre className="app__panel" data-testid="database-info">
+              {JSON.stringify(databaseInfo, null, 2)}
+            </pre>
+          ) : null}
+
+          {lastPrint !== undefined ? (
+            <pre className="app__panel app__panel--preview" data-testid="print-preview">
+              {lastPrint.preview}
+            </pre>
+          ) : null}
+        </>
+      ) : (
+        <section aria-label="Catalogue">
+          <label className="catalog-role" data-testid="catalog-role-picker">
+            Rôle de démonstration
+            <select
+              data-testid="catalog-role-select"
+              value={role}
+              onChange={(event) => {
+                onRoleChange(event.target.value as CatalogUiRole);
+              }}
+            >
+              <option value="vendeur">Vendeur</option>
+              <option value="gerant">Gérant</option>
+              <option value="proprietaire">Propriétaire</option>
+            </select>
+          </label>
+          {catalogSession === undefined ? (
+            <p data-testid="catalog-need-database">
+              Ouvrez d&apos;abord la base (onglet Preuve) pour charger le catalogue démo.
+            </p>
+          ) : (
+            <CatalogShell bridge={window.tenu} session={catalogSession} />
+          )}
+        </section>
+      )}
     </main>
   );
 }

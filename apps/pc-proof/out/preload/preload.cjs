@@ -1,6 +1,75 @@
 "use strict";
 const electron = require("electron");
 const zod = require("zod");
+const USER_ROLE_SCHEMA = zod.z.enum(["vendeur", "gerant", "proprietaire"]);
+const catalogSessionSchema = zod.z.object({
+  tenantId: zod.z.string().min(1),
+  actorUserId: zod.z.string().min(1),
+  deviceId: zod.z.string().min(1),
+  role: USER_ROLE_SCHEMA
+}).strict();
+const catalogSearchRequestSchema = zod.z.object({
+  session: catalogSessionSchema,
+  query: zod.z.string().max(200),
+  limit: zod.z.number().int().min(1).max(50)
+}).strict();
+const productSummarySchema = zod.z.object({
+  id: zod.z.string().min(1),
+  internalCode: zod.z.string().min(1),
+  name: zod.z.string().min(1),
+  referencePrice: zod.z.number().int().min(0),
+  floorPrice: zod.z.number().int().min(0),
+  active: zod.z.boolean()
+}).strict();
+const catalogSearchResponseSchema = zod.z.object({
+  items: zod.z.array(productSummarySchema)
+}).strict();
+const catalogGetProductRequestSchema = zod.z.object({
+  session: catalogSessionSchema,
+  productId: zod.z.string().min(1)
+}).strict();
+const productViewSchema = zod.z.object({
+  id: zod.z.string().min(1),
+  internalCode: zod.z.string().min(1),
+  name: zod.z.string().min(1),
+  barcode: zod.z.string().nullable(),
+  altNames: zod.z.array(zod.z.string()),
+  categoryId: zod.z.string().nullable(),
+  baseUnit: zod.z.string().min(1),
+  referencePrice: zod.z.number().int().min(0),
+  floorPrice: zod.z.number().int().min(0),
+  stockAlertThreshold: zod.z.number().int().nullable(),
+  location: zod.z.string().nullable(),
+  active: zod.z.boolean(),
+  /** Absent for vendeur [BR3.17]. */
+  averagePurchaseCost: zod.z.number().int().nullable().optional()
+}).strict();
+const catalogGetProductResponseSchema = zod.z.object({
+  product: productViewSchema.nullable()
+}).strict();
+const productWriteSchema = zod.z.object({
+  designation: zod.z.string().min(1).max(200),
+  baseUnit: zod.z.string().min(1).max(40),
+  referencePrice: zod.z.number().int().min(0),
+  floorPrice: zod.z.number().int().min(0),
+  internalCode: zod.z.string().min(1).max(40).optional(),
+  barcode: zod.z.string().max(64).optional(),
+  altNames: zod.z.array(zod.z.string().max(120)).max(20).optional(),
+  categoryId: zod.z.string().min(1).optional(),
+  location: zod.z.string().max(120).optional(),
+  averagePurchaseCost: zod.z.number().int().min(0).optional(),
+  stockAlertThreshold: zod.z.number().int().min(0).optional(),
+  productId: zod.z.string().min(1).optional()
+}).strict();
+const catalogSaveProductRequestSchema = zod.z.object({
+  session: catalogSessionSchema,
+  mode: zod.z.enum(["create", "update"]),
+  fields: productWriteSchema
+}).strict();
+const catalogSaveProductResponseSchema = zod.z.object({
+  productId: zod.z.string().min(1),
+  internalCode: zod.z.string().min(1)
+}).strict();
 const MAX_PAYLOAD_BYTES = 64 * 1024;
 const PRINT_TARGETS = ["preview", "usb", "spooler"];
 const openDatabaseRequestSchema = zod.z.object({}).strict();
@@ -9,7 +78,14 @@ const openDatabaseResponseSchema = zod.z.object({
   path: zod.z.string().min(1),
   encrypted: zod.z.literal(true),
   journalMode: zod.z.string().min(1),
-  schemaVersion: zod.z.number().int().min(0)
+  schemaVersion: zod.z.number().int().min(0),
+  /** Présent quand le seed démo a été chargé ou était déjà là (C1). */
+  demoSession: zod.z.object({
+    tenantId: zod.z.string().min(1),
+    proprietaireId: zod.z.string().min(1),
+    gerantId: zod.z.string().min(1),
+    vendeurId: zod.z.string().min(1)
+  }).nullable()
 }).strict();
 const writeProbeRequestSchema = zod.z.object({
   label: zod.z.string().min(1).max(120)
@@ -44,7 +120,10 @@ const printProbeResponseSchema = zod.z.object({
 const IPC_CHANNELS = {
   openDatabase: "tenu:database:open",
   writeProbe: "tenu:database:write-probe",
-  printProbe: "tenu:printer:print-probe"
+  printProbe: "tenu:printer:print-probe",
+  catalogSearch: "tenu:catalog:search",
+  catalogGetProduct: "tenu:catalog:get-product",
+  catalogSaveProduct: "tenu:catalog:save-product"
 };
 function payloadByteLength(payload) {
   try {
@@ -113,6 +192,33 @@ function createTenuBridge(invoke) {
         request,
         printProbeRequestSchema,
         printProbeResponseSchema
+      );
+    },
+    catalogSearch(request) {
+      return invokeValidated(
+        invoke,
+        IPC_CHANNELS.catalogSearch,
+        request,
+        catalogSearchRequestSchema,
+        catalogSearchResponseSchema
+      );
+    },
+    catalogGetProduct(request) {
+      return invokeValidated(
+        invoke,
+        IPC_CHANNELS.catalogGetProduct,
+        request,
+        catalogGetProductRequestSchema,
+        catalogGetProductResponseSchema
+      );
+    },
+    catalogSaveProduct(request) {
+      return invokeValidated(
+        invoke,
+        IPC_CHANNELS.catalogSaveProduct,
+        request,
+        catalogSaveProductRequestSchema,
+        catalogSaveProductResponseSchema
       );
     }
   };

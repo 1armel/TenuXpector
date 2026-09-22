@@ -55,7 +55,7 @@ describe('migrations reversibility [BR1.2]', () => {
   it('applies foundation schema to version 2', () => {
     const db = openTempDb();
     expect(db.schemaVersion).toBe(LATEST_SCHEMA_VERSION);
-    expect(LATEST_SCHEMA_VERSION).toBe(2);
+    expect(LATEST_SCHEMA_VERSION).toBe(3);
     const tables = db.connection
       .prepare<[], { name: string }>(
         `SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name`,
@@ -76,10 +76,10 @@ describe('migrations reversibility [BR1.2]', () => {
       filePath: path,
       encryptionKey: DEVELOPMENT_FALLBACK_KEY,
     });
-    expect(db.migrateDown(0)).toBe(2);
+    expect(db.migrateDown(0)).toBe(3);
     expect(db.schemaVersion).toBe(0);
-    expect(db.migrateUp()).toBe(2);
-    expect(db.schemaVersion).toBe(2);
+    expect(db.migrateUp()).toBe(3);
+    expect(db.schemaVersion).toBe(3);
     db.close();
   });
 

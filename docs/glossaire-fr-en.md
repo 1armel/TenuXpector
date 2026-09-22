@@ -13,3 +13,8 @@
 | Arrêt forcé / coupure | power-cut harness (`tests/resilience`) |
 | Montant en FCFA (entier) | `amountFcfa` |
 | Fuseau d’affichage | `Africa/Douala` (`DISPLAY_TIME_ZONE`) |
+| Code interne | `internalCode` / `internal_code` |
+| Prix plancher | `floorPrice` / `floor_price` |
+| Prix de vente de référence | `referencePrice` / `reference_price` |
+| Recherche catalogue | `catalog.search` / `tenu:catalog:search` |
+| Masquage coûts vendeur | `projectProductForRole` / `SensitiveDataGuard` |

@@ -1,0 +1,26 @@
+name: Setup Node + pnpm
+description: Node 22.20, pnpm 10.15, cache store, install frozen-lockfile
+runs:
+  using: composite
+  steps:
+    - name: Install OS build tools
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends build-essential python3
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.15.0
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22.20.0"
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

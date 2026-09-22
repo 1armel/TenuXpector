@@ -13,6 +13,28 @@
  */
 import { z } from 'zod';
 import type { Result } from './result';
+import {
+  catalogGetProductRequestSchema,
+  catalogGetProductResponseSchema,
+  catalogSaveProductRequestSchema,
+  catalogSaveProductResponseSchema,
+  catalogSearchRequestSchema,
+  catalogSearchResponseSchema,
+} from './catalog-ipc';
+
+export {
+  catalogGetProductRequestSchema,
+  catalogGetProductResponseSchema,
+  catalogSaveProductRequestSchema,
+  catalogSaveProductResponseSchema,
+  catalogSearchRequestSchema,
+  catalogSearchResponseSchema,
+  catalogSessionSchema,
+  productSummarySchema,
+  productViewSchema,
+  productWriteSchema,
+  USER_ROLE_SCHEMA,
+} from './catalog-ipc';
 
 /** Au-delà, la charge est refusée sans même être analysée. */
 export const MAX_PAYLOAD_BYTES = 64 * 1024;
@@ -26,6 +48,8 @@ export const IPC_ERROR_CODES = [
   'DATABASE_FAILED',
   'PRINTER_UNAVAILABLE',
   'PRINT_FAILED',
+  'FORBIDDEN_ROLE',
+  'VALIDATION_FAILED',
   'INTERNAL_ERROR',
 ] as const;
 
@@ -47,6 +71,15 @@ export const openDatabaseResponseSchema = z
     encrypted: z.literal(true),
     journalMode: z.string().min(1),
     schemaVersion: z.number().int().min(0),
+    /** Présent quand le seed démo a été chargé ou était déjà là (C1). */
+    demoSession: z
+      .object({
+        tenantId: z.string().min(1),
+        proprietaireId: z.string().min(1),
+        gerantId: z.string().min(1),
+        vendeurId: z.string().min(1),
+      })
+      .nullable(),
   })
   .strict();
 
@@ -108,6 +141,9 @@ export const IPC_CHANNELS = {
   openDatabase: 'tenu:database:open',
   writeProbe: 'tenu:database:write-probe',
   printProbe: 'tenu:printer:print-probe',
+  catalogSearch: 'tenu:catalog:search',
+  catalogGetProduct: 'tenu:catalog:get-product',
+  catalogSaveProduct: 'tenu:catalog:save-product',
 } as const;
 
 export type IpcChannelName = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS];
@@ -125,6 +161,18 @@ export const IPC_CONTRACT = {
     request: printProbeRequestSchema,
     response: printProbeResponseSchema,
   },
+  [IPC_CHANNELS.catalogSearch]: {
+    request: catalogSearchRequestSchema,
+    response: catalogSearchResponseSchema,
+  },
+  [IPC_CHANNELS.catalogGetProduct]: {
+    request: catalogGetProductRequestSchema,
+    response: catalogGetProductResponseSchema,
+  },
+  [IPC_CHANNELS.catalogSaveProduct]: {
+    request: catalogSaveProductRequestSchema,
+    response: catalogSaveProductResponseSchema,
+  },
 } as const;
 
 export type OpenDatabaseRequest = z.infer<typeof openDatabaseRequestSchema>;
@@ -133,6 +181,12 @@ export type WriteProbeRequest = z.infer<typeof writeProbeRequestSchema>;
 export type WriteProbeResponse = z.infer<typeof writeProbeResponseSchema>;
 export type PrintProbeRequest = z.infer<typeof printProbeRequestSchema>;
 export type PrintProbeResponse = z.infer<typeof printProbeResponseSchema>;
+export type CatalogSearchRequest = z.infer<typeof catalogSearchRequestSchema>;
+export type CatalogSearchResponse = z.infer<typeof catalogSearchResponseSchema>;
+export type CatalogGetProductRequest = z.infer<typeof catalogGetProductRequestSchema>;
+export type CatalogGetProductResponse = z.infer<typeof catalogGetProductResponseSchema>;
+export type CatalogSaveProductRequest = z.infer<typeof catalogSaveProductRequestSchema>;
+export type CatalogSaveProductResponse = z.infer<typeof catalogSaveProductResponseSchema>;
 
 export type IpcResult<T> = Result<T, IpcErrorCode>;
 
@@ -141,6 +195,13 @@ export interface TenuBridge {
   openDatabase(request: OpenDatabaseRequest): Promise<IpcResult<OpenDatabaseResponse>>;
   writeProbe(request: WriteProbeRequest): Promise<IpcResult<WriteProbeResponse>>;
   printProbe(request: PrintProbeRequest): Promise<IpcResult<PrintProbeResponse>>;
+  catalogSearch(request: CatalogSearchRequest): Promise<IpcResult<CatalogSearchResponse>>;
+  catalogGetProduct(
+    request: CatalogGetProductRequest,
+  ): Promise<IpcResult<CatalogGetProductResponse>>;
+  catalogSaveProduct(
+    request: CatalogSaveProductRequest,
+  ): Promise<IpcResult<CatalogSaveProductResponse>>;
 }
 
 export function isKnownChannel(channel: string): channel is IpcChannelName {

@@ -96,6 +96,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@tenu/domain':
+        specifier: workspace:*
+        version: link:../domain
       better-sqlite3-multiple-ciphers:
         specifier: ^13.0.3
         version: 13.0.3

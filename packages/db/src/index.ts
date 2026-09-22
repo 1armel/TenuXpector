@@ -121,6 +121,14 @@ export {
 } from './catalog/product';
 
 export {
+  CatalogService,
+  type CatalogProductSummary,
+  type CatalogProductRecord,
+  type SaveProductFields,
+  type SaveProductResult,
+} from './catalog/catalog-service';
+
+export {
   seedDemoDatabase,
   countSalesTables,
   countProducts,

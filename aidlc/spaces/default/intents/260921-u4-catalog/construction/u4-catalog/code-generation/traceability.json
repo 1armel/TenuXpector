@@ -1,0 +1,111 @@
+{
+  "stage": "code-generation",
+  "unit": "u4-catalog",
+  "upstream_ids": [
+    "FR3.1",
+    "FR3.2",
+    "BR3.1",
+    "BR3.2",
+    "BR3.3",
+    "BR3.4",
+    "BR3.9",
+    "BR3.17",
+    "CT-09",
+    "NFR3.1",
+    "ENF-08",
+    "ENF-11",
+    "DEC-04"
+  ],
+  "coverage": [
+    {
+      "id": "FR3.1",
+      "status": "OK",
+      "target": "apps/pc-proof/src/renderer/catalog/ArticleForm.tsx"
+    },
+    {
+      "id": "FR3.1",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/product-create.ts"
+    },
+    {
+      "id": "FR3.2",
+      "status": "OK",
+      "target": "apps/pc-proof/src/renderer/catalog/CatalogSearch.tsx"
+    },
+    {
+      "id": "FR3.2",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/normalize.ts"
+    },
+    {
+      "id": "BR3.1",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/internal-code.ts"
+    },
+    {
+      "id": "BR3.2",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/product-create.ts"
+    },
+    {
+      "id": "BR3.3",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/product-create.ts"
+    },
+    {
+      "id": "BR3.4",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/normalize.ts"
+    },
+    {
+      "id": "BR3.9",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/product-create.ts"
+    },
+    {
+      "id": "BR3.17",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/seller-projection.ts"
+    },
+    {
+      "id": "BR3.17",
+      "status": "OK",
+      "target": "apps/pc-proof/src/renderer/catalog/RoleGate.tsx"
+    },
+    {
+      "id": "CT-09",
+      "status": "OK",
+      "target": "apps/pc-proof/src/renderer/catalog/RoleGate.tsx"
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "packages/db/src/migrations.ts"
+    },
+    {
+      "id": "ENF-08",
+      "status": "OK",
+      "target": "packages/db/src/catalog/catalog-service.ts"
+    },
+    {
+      "id": "ENF-11",
+      "status": "OK",
+      "target": "packages/domain/tests/catalog.spec.ts"
+    },
+    {
+      "id": "DEC-04",
+      "status": "OK",
+      "target": "packages/domain/src/catalog/product-create.ts"
+    },
+    {
+      "id": "FR3.1",
+      "status": "OK",
+      "target": "apps/pc-proof/src/shared/catalog-ipc.ts"
+    },
+    {
+      "id": "FR3.2",
+      "status": "OK",
+      "target": "packages/db/src/catalog/catalog-service.ts"
+    }
+  ]
+}

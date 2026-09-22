@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm test:unit && pnpm test:db && pnpm test:domain",
-    "test:unit": "vitest run --dir apps/pc-proof --coverage --coverage.include=apps/pc-proof/src/**/*.ts --coverage.include=apps/pc-proof/src/**/*.tsx --coverage.include=src/**/*.ts --coverage.include=src/**/*.tsx",
+    "test:unit": "vitest run --dir apps/pc-proof --coverage --coverage.include=apps/pc-proof/src/**/*.ts --coverage.include=apps/pc-proof/src/**/*.tsx --coverage.include=src/**/*.ts --coverage.include=src/**/*.tsx --coverage.exclude=apps/pc-proof/src/main/main.ts --coverage.exclude=apps/pc-proof/src/renderer/main.tsx --coverage.exclude=apps/pc-proof/src/preload/preload.ts --coverage.exclude=apps/pc-proof/src/main/printing/spooler-printer.ts --coverage.exclude=apps/pc-proof/src/main/printing/usb-printer.ts --coverage.exclude=apps/pc-proof/src/main/printing/preview-printer.ts --coverage.exclude='**/*.spec.ts' --coverage.exclude='**/*.spec.tsx'",
     "test:db": "vitest run --dir packages/db --coverage",
     "test:domain": "vitest run --dir packages/domain --coverage --coverage.include='packages/domain/src/**/*.ts' --coverage.thresholds.lines=90 --coverage.thresholds.branches=90",
     "test:resilience": "vitest run tests/resilience/power-cut.spec.ts --testTimeout=600000",

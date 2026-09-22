@@ -1,0 +1,143 @@
+=== typecheck ===
+
+> tenuxpector@0.0.0 typecheck /home/armel/Documents/github/TenuXpector
+> tsc -p tsconfig.json --noEmit && tsc -p apps/pc-proof/tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p packages/db/tsconfig.json --noEmit
+
+TYPECHECK_EXIT:0
+=== lint ===
+
+> tenuxpector@0.0.0 lint /home/armel/Documents/github/TenuXpector
+> eslint .
+
+LINT_EXIT:0
+=== test ===
+
+> tenuxpector@0.0.0 test /home/armel/Documents/github/TenuXpector
+> pnpm test:unit && pnpm test:db && pnpm test:domain
+
+
+> tenuxpector@0.0.0 test:unit /home/armel/Documents/github/TenuXpector
+> vitest run --dir apps/pc-proof --coverage --coverage.include=apps/pc-proof/src/**/*.ts --coverage.include=apps/pc-proof/src/**/*.tsx --coverage.include=src/**/*.ts --coverage.include=src/**/*.tsx --coverage.exclude=apps/pc-proof/src/main/main.ts --coverage.exclude=apps/pc-proof/src/renderer/main.tsx --coverage.exclude=apps/pc-proof/src/preload/preload.ts --coverage.exclude=apps/pc-proof/src/main/printing/spooler-printer.ts --coverage.exclude=apps/pc-proof/src/main/printing/usb-printer.ts --coverage.exclude=apps/pc-proof/src/main/printing/preview-printer.ts --coverage.exclude='**/*.spec.ts' --coverage.exclude='**/*.spec.tsx'
+
+
+ RUN  v5.0.1 /home/armel/Documents/github/TenuXpector
+      Coverage enabled with v8
+
+
+ Test Files  11 passed (11)
+      Tests  94 passed (94)
+   Start at  22:04:45
+   Duration  6.98s (tests 65%, environment 12%, transform 11%, import 9%, worker 2%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    94.1 |    80.28 |   94.82 |   95.93 |                   
+ main              |    86.7 |    71.84 |   88.88 |   90.44 |                   
+  bootstrap.ts     |     100 |    91.66 |     100 |     100 | 55                
+  ipc.ts           |    87.5 |    82.35 |      80 |   89.28 | 77-81             
+  ...pplication.ts |   79.77 |    63.49 |      80 |      85 | ...79-280,325-326 
+  security.ts      |   96.96 |    81.81 |     100 |     100 | 95,190            
+ main/printing     |      99 |    87.03 |     100 |     100 |                   
+  escpos.ts        |     100 |       88 |     100 |     100 | 65,96,125         
+  ...pt-printer.ts |   96.66 |       80 |     100 |     100 | 126,147,153       
+  receipt.ts       |     100 |    83.33 |     100 |     100 | 88                
+ preload           |    92.3 |    86.66 |     100 |   95.65 |                   
+  bridge.ts        |    92.3 |    86.66 |     100 |   95.65 | 64                
+ renderer          |   98.03 |    80.95 |    90.9 |   98.03 |                   
+  App.tsx          |   98.03 |    80.95 |    90.9 |   98.03 | 148               
+ renderer/catalog  |   97.75 |       84 |      96 |   98.83 |                   
+  ArticleForm.tsx  |    90.9 |    83.33 |    87.5 |      90 | 65                
+  CatalogShell.tsx |   98.48 |       80 |     100 |     100 | ...09-123,152-158 
+ shared            |   98.55 |       90 |     100 |   98.41 |                   
+  formatting.ts    |     100 |    83.33 |     100 |     100 | 40,75             
+  ipc-contract.ts  |   95.23 |      100 |     100 |      95 | 221               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 94.1% ( 479/509 )
+Branches     : 80.28% ( 228/284 )
+Functions    : 94.82% ( 110/116 )
+Lines        : 95.93% ( 448/467 )
+================================================================================
+
+> tenuxpector@0.0.0 test:db /home/armel/Documents/github/TenuXpector
+> vitest run --dir packages/db --coverage
+
+
+ RUN  v5.0.1 /home/armel/Documents/github/TenuXpector
+      Coverage enabled with v8
+
+
+ Test Files  11 passed (11)
+      Tests  66 passed (66)
+   Start at  22:04:52
+   Duration  8.41s (tests 91%, transform 4%, import 4%, worker 1%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    93.1 |    86.28 |   98.18 |   94.48 |                   
+ src               |   93.33 |    85.22 |   96.61 |    93.8 |                   
+  ...d-database.ts |      94 |    76.66 |   96.87 |    95.6 | 45-47,118         
+  ...nal-writer.ts |   93.93 |    88.88 |     100 |   93.93 | 53,118            
+  types.ts         |   83.33 |      100 |   83.33 |   82.35 | 34-36             
+  uuid-v7.ts       |   91.48 |    81.81 |     100 |    90.9 | 76-78,94          
+ src/catalog       |   94.21 |    92.06 |     100 |   95.57 |                   
+  ...og-service.ts |    93.9 |     88.4 |     100 |   94.73 | 92,253,276,351    
+  product.ts       |   94.87 |    96.49 |     100 |   97.29 | 66                
+ src/identity      |   88.88 |    75.47 |     100 |   92.85 |                   
+  ...ty-service.ts |   87.32 |    73.33 |     100 |    90.9 | ...08,248,303,307 
+  pin.ts           |   94.73 |     87.5 |     100 |     100 | 53                
+ src/settings      |     100 |       80 |     100 |     100 |                   
+  ...gs-service.ts |     100 |       80 |     100 |     100 | 32,80             
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 93.1% ( 432/464 )
+Branches     : 86.28% ( 239/277 )
+Functions    : 98.18% ( 108/110 )
+Lines        : 94.48% ( 411/435 )
+================================================================================
+
+> tenuxpector@0.0.0 test:domain /home/armel/Documents/github/TenuXpector
+> vitest run --dir packages/domain --coverage --coverage.include='packages/domain/src/**/*.ts' --coverage.thresholds.lines=90 --coverage.thresholds.branches=90
+
+
+ RUN  v5.0.1 /home/armel/Documents/github/TenuXpector
+      Coverage enabled with v8
+
+
+ Test Files  10 passed (10)
+      Tests  91 passed (91)
+   Start at  22:05:02
+   Duration  460ms (transform 56%, import 21%, worker 15%, tests 8%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.58 |    95.65 |     100 |   98.52 |                   
+ src               |   98.28 |    94.76 |     100 |   98.24 |                   
+  alert-engine.ts  |   98.78 |     92.3 |     100 |   98.73 | 63                
+  costing.ts       |   96.15 |    95.45 |     100 |   96.15 | 20                
+  rounding.ts      |    92.3 |    92.85 |     100 |    92.3 | 26                
+  ...calculator.ts |   98.57 |    96.66 |     100 |   98.55 | 55                
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 98.58% ( 279/283 )
+Branches     : 95.65% ( 198/207 )
+Functions    : 100% ( 44/44 )
+Lines        : 98.52% ( 268/272 )
+================================================================================
+TEST_EXIT:0
+=== forbidden-word ===
+
+> tenuxpector@0.0.0 check:forbidden-word /home/armel/Documents/github/TenuXpector
+> node scripts/check-forbidden-word.mjs
+
+[ENF-14] OK — 117 fichier(s) contrôlé(s), aucune occurrence.
+FORBIDDEN_EXIT:0

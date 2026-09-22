@@ -12,7 +12,8 @@ function createBackend(overrides: Partial<IpcBackend> = {}): IpcBackend {
       path: '/tmp/probe.db',
       encrypted: true as const,
       journalMode: 'wal',
-      schemaVersion: 1,
+      schemaVersion: 3,
+      demoSession: null,
     })),
     writeProbe: vi.fn(async () => ({
       id: '01900000-0000-7000-8000-000000000001',
@@ -26,6 +27,12 @@ function createBackend(overrides: Partial<IpcBackend> = {}): IpcBackend {
       byteCount: 128,
       reason: null,
       preview: 'TICKET',
+    })),
+    catalogSearch: vi.fn(async () => ({ items: [] })),
+    catalogGetProduct: vi.fn(async () => ({ product: null })),
+    catalogSaveProduct: vi.fn(async () => ({
+      productId: '01900000-0000-7000-8000-000000000010',
+      internalCode: 'SKU-0001',
     })),
     ...overrides,
   };

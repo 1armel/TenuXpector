@@ -21,6 +21,7 @@ describe('preload bridge [NFR8]', () => {
         encrypted: true,
         journalMode: 'wal',
         schemaVersion: 1,
+        demoSession: null,
       },
     }));
     const result = await invokeValidated(
@@ -85,7 +86,13 @@ describe('preload bridge [NFR8]', () => {
       if (channel === IPC_CHANNELS.openDatabase) {
         return {
           ok: true,
-          value: { path: '/p', encrypted: true, journalMode: 'wal', schemaVersion: 1 },
+          value: {
+            path: '/p',
+            encrypted: true,
+            journalMode: 'wal',
+            schemaVersion: 1,
+            demoSession: null,
+          },
         };
       }
       if (channel === IPC_CHANNELS.writeProbe) {
@@ -115,6 +122,49 @@ describe('preload bridge [NFR8]', () => {
     await expect(bridge.writeProbe({ label: 'a' })).resolves.toMatchObject({ ok: true });
     await expect(
       bridge.printProbe({ target: 'preview', label: 'a', amountFcfa: 1 }),
+    ).resolves.toMatchObject({ ok: true });
+  });
+
+  it('expose les canaux catalogue', async () => {
+    const invoke = vi.fn(async (channel: string) => {
+      if (channel === IPC_CHANNELS.catalogSearch) {
+        return { ok: true, value: { items: [] } };
+      }
+      if (channel === IPC_CHANNELS.catalogGetProduct) {
+        return { ok: true, value: { product: null } };
+      }
+      return {
+        ok: true,
+        value: {
+          productId: '01900000-0000-7000-8000-000000000010',
+          internalCode: 'SKU-1',
+        },
+      };
+    });
+    const bridge = createTenuBridge(invoke);
+    const session = {
+      tenantId: 't',
+      actorUserId: 'u',
+      deviceId: 'd',
+      role: 'gerant' as const,
+    };
+    await expect(
+      bridge.catalogSearch({ session, query: 'x', limit: 5 }),
+    ).resolves.toMatchObject({ ok: true });
+    await expect(
+      bridge.catalogGetProduct({ session, productId: '01900000-0000-7000-8000-000000000010' }),
+    ).resolves.toMatchObject({ ok: true });
+    await expect(
+      bridge.catalogSaveProduct({
+        session,
+        mode: 'create',
+        fields: {
+          designation: 'Vis',
+          baseUnit: 'piece',
+          referencePrice: 10,
+          floorPrice: 5,
+        },
+      }),
     ).resolves.toMatchObject({ ok: true });
   });
 });

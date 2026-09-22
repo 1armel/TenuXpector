@@ -74,13 +74,13 @@ Catégories : **seed / lecture seule** en C1 (R-01 FD) — pas d’UI de créati
 
 ## Steps
 
-- [ ] Step 1 — Vérifier hooks `.githooks/pre-commit` et `pre-push` exécutables (`+x`) ; runner Vitest existant ; noter la commande unit-scopée (voir `unit-test-instructions.md`)
-- [ ] Step 2 — **Domain Catalog (tests d’abord)** : fichiers sous `packages/domain/src/catalog/` — BR3.1, BR3.2, BR3.3, BR3.4, BR3.9, BR3.17 ; rouge → vert ; ≥ 10 tests ; export depuis `packages/domain/src/index.ts`
-- [ ] Step 3 — **DB** : étendre `packages/db` (migration réversible si index recherche manquant) ; persistance Product/SellingUnit + `journal_audit` + `outbox` dans la même transaction via TransactionalWriter ; tests `packages/db` scopés catalogue
-- [ ] Step 4 — **IPC** : canaux C-01 C1 (`catalog.search`, `catalog.getProduct`, `catalog.saveProduct`) Zod strict + SensitiveDataGuard ; tests contrat / handlers
-- [ ] Step 5 — **UI** : `CatalogShell`, `CatalogSearch`, `CatalogResultList`, `ArticleForm`, `RoleGate` dans `apps/pc-proof` ; data-testid ; vendeur sans nœuds coûts ; tests renderer scopés
-- [ ] Step 6 — Seed / démo : au moins un article vendable trouvé par la caisse existante
-- [ ] Step 7 — `source-manifest.json` ; `code-summary.md` ; `traceability.json` (FR3.1/FR3.2 → chemins) ; `pnpm typecheck && pnpm lint && pnpm test` verts
+- [x] Step 1 — Vérifier hooks `.githooks/pre-commit` et `pre-push` exécutables (`+x`) ; runner Vitest existant ; noter la commande unit-scopée (voir `unit-test-instructions.md`)
+- [x] Step 2 — **Domain Catalog (tests d’abord)** : fichiers sous `packages/domain/src/catalog/` — BR3.1, BR3.2, BR3.3, BR3.4, BR3.9, BR3.17 ; rouge → vert ; ≥ 10 tests ; export depuis `packages/domain/src/index.ts`
+- [x] Step 3 — **DB** : étendre `packages/db` (migration réversible si index recherche manquant) ; persistance Product/SellingUnit + `journal_audit` + `outbox` dans la même transaction via TransactionalWriter ; tests `packages/db` scopés catalogue
+- [x] Step 4 — **IPC** : canaux C-01 C1 (`catalog.search`, `catalog.getProduct`, `catalog.saveProduct`) Zod strict + SensitiveDataGuard ; tests contrat / handlers
+- [x] Step 5 — **UI** : `CatalogShell`, `CatalogSearch`, `CatalogResultList`, `ArticleForm`, `RoleGate` dans `apps/pc-proof` ; data-testid ; vendeur sans nœuds coûts ; tests renderer scopés
+- [x] Step 6 — Seed / démo : au moins un article vendable trouvé par la caisse existante
+- [x] Step 7 — `source-manifest.json` ; `code-summary.md` ; `traceability.json` (FR3.1/FR3.2 → chemins) ; `pnpm typecheck && pnpm lint && pnpm test` verts
 
 ## Trace FR → steps
 

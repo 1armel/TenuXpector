@@ -12,6 +12,12 @@ import {
   validate,
   writeProbeRequestSchema,
   writeProbeResponseSchema,
+  catalogSearchRequestSchema,
+  catalogSearchResponseSchema,
+  catalogGetProductRequestSchema,
+  catalogGetProductResponseSchema,
+  catalogSaveProductRequestSchema,
+  catalogSaveProductResponseSchema,
   type IpcResult,
   type OpenDatabaseRequest,
   type OpenDatabaseResponse,
@@ -20,6 +26,12 @@ import {
   type TenuBridge,
   type WriteProbeRequest,
   type WriteProbeResponse,
+  type CatalogSearchRequest,
+  type CatalogSearchResponse,
+  type CatalogGetProductRequest,
+  type CatalogGetProductResponse,
+  type CatalogSaveProductRequest,
+  type CatalogSaveProductResponse,
 } from '../shared/ipc-contract';
 import { failure } from '../shared/result';
 
@@ -87,6 +99,33 @@ export function createTenuBridge(invoke: InvokeFn): TenuBridge {
         request,
         printProbeRequestSchema,
         printProbeResponseSchema,
+      );
+    },
+    catalogSearch(request: CatalogSearchRequest) {
+      return invokeValidated<CatalogSearchResponse>(
+        invoke,
+        IPC_CHANNELS.catalogSearch,
+        request,
+        catalogSearchRequestSchema,
+        catalogSearchResponseSchema,
+      );
+    },
+    catalogGetProduct(request: CatalogGetProductRequest) {
+      return invokeValidated<CatalogGetProductResponse>(
+        invoke,
+        IPC_CHANNELS.catalogGetProduct,
+        request,
+        catalogGetProductRequestSchema,
+        catalogGetProductResponseSchema,
+      );
+    },
+    catalogSaveProduct(request: CatalogSaveProductRequest) {
+      return invokeValidated<CatalogSaveProductResponse>(
+        invoke,
+        IPC_CHANNELS.catalogSaveProduct,
+        request,
+        catalogSaveProductRequestSchema,
+        catalogSaveProductResponseSchema,
       );
     },
   };

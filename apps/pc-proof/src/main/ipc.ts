@@ -22,6 +22,12 @@ import {
   isKnownChannel,
   payloadByteLength,
   validate,
+  type CatalogGetProductRequest,
+  type CatalogGetProductResponse,
+  type CatalogSaveProductRequest,
+  type CatalogSaveProductResponse,
+  type CatalogSearchRequest,
+  type CatalogSearchResponse,
   type IpcErrorCode,
   type IpcResult,
   type OpenDatabaseRequest,
@@ -48,6 +54,9 @@ export interface IpcBackend {
   openDatabase(request: OpenDatabaseRequest): Promise<OpenDatabaseResponse>;
   writeProbe(request: WriteProbeRequest): Promise<WriteProbeResponse>;
   printProbe(request: PrintProbeRequest): Promise<PrintProbeResponse>;
+  catalogSearch(request: CatalogSearchRequest): Promise<CatalogSearchResponse>;
+  catalogGetProduct(request: CatalogGetProductRequest): Promise<CatalogGetProductResponse>;
+  catalogSaveProduct(request: CatalogSaveProductRequest): Promise<CatalogSaveProductResponse>;
 }
 
 async function invokeBackend(
@@ -62,6 +71,12 @@ async function invokeBackend(
       return backend.writeProbe(request as WriteProbeRequest);
     case IPC_CHANNELS.printProbe:
       return backend.printProbe(request as PrintProbeRequest);
+    case IPC_CHANNELS.catalogSearch:
+      return backend.catalogSearch(request as CatalogSearchRequest);
+    case IPC_CHANNELS.catalogGetProduct:
+      return backend.catalogGetProduct(request as CatalogGetProductRequest);
+    case IPC_CHANNELS.catalogSaveProduct:
+      return backend.catalogSaveProduct(request as CatalogSaveProductRequest);
     default:
       throw new IpcBackendError('UNKNOWN_CHANNEL', `Canal non traité : ${channel}`);
   }

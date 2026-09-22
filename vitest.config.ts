@@ -26,7 +26,10 @@ export default defineConfig({
     include: [
       'apps/**/tests/**/*.spec.ts',
       'apps/**/tests/**/*.spec.tsx',
+      'apps/**/src/**/*.spec.ts',
+      'apps/**/src/**/*.spec.tsx',
       'packages/**/tests/**/*.spec.ts',
+      'packages/**/src/**/*.spec.ts',
       'tests/tooling/**/*.spec.ts',
       'tests/resilience/**/*.spec.ts',
       'tests/**/*.spec.ts',
@@ -48,6 +51,10 @@ export default defineConfig({
         '**/doubles/**',
         '**/index.ts',
         '**/tests/**',
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
+        '**/*.test.ts',
+        '**/*.test.tsx',
       ],
       thresholds: {
         lines: 80,

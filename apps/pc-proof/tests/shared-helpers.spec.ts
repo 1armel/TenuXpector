@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { describeError, failure, isFailure, isSuccess, success } from '../src/shared/result';
-import { toStoredTimestamp } from '../src/shared/formatting';
+import { formatAmountFcfa, toStoredTimestamp } from '../src/shared/formatting';
 import { createReceiptPrinter } from '../src/main/printing/printer-factory';
 import { nodeUsbDeviceAccess } from '../src/main/printing/usb-printer';
 
@@ -26,6 +26,12 @@ describe('formatting stockage', () => {
     expect(toStoredTimestamp(new Date('2026-03-15T10:30:00.000Z'))).toBe(
       '2026-03-15T10:30:00.000Z',
     );
+  });
+
+  it('formate les montants négatifs et refuse les flottants', () => {
+    expect(formatAmountFcfa(-12_500)).toMatch(/-/);
+    expect(formatAmountFcfa(0)).toMatch(/0/);
+    expect(() => formatAmountFcfa(1.5)).toThrow(RangeError);
   });
 });
 

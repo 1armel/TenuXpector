@@ -25,6 +25,7 @@ export interface ProductInput {
   readonly stockAlertThreshold?: number;
   readonly location?: string;
   readonly active?: boolean;
+  readonly searchNormalized?: string;
   readonly createdBy: string;
   readonly deviceId: string;
 }
@@ -101,13 +102,20 @@ export function insertProductRow(db: EncryptedDatabase, product: ProductInput, c
   validateProductPrices(product.floorPrice, product.referencePrice);
   if (!isUuidV7(product.id)) throw new ValidationError('Product id must be UUID v7 [BR1.4]');
 
+  const searchNormalized =
+    product.searchNormalized ??
+    [product.name, ...(product.altNames ?? []), product.internalCode, product.barcode ?? '']
+      .filter((part) => part.length > 0)
+      .join(' ')
+      .toLocaleLowerCase('fr-FR');
+
   db.connection
     .prepare(
       `INSERT INTO products (
         id, tenant_id, internal_code, barcode, name, alt_names, category_id, base_unit,
         average_purchase_cost, reference_price, floor_price, stock_alert_threshold,
-        location, active, created_at, created_by, device_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        location, active, search_normalized, created_at, created_by, device_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .run(
       product.id,
@@ -124,6 +132,7 @@ export function insertProductRow(db: EncryptedDatabase, product: ProductInput, c
       product.stockAlertThreshold ?? null,
       product.location ?? null,
       product.active === false ? 0 : 1,
+      searchNormalized,
       createdAt,
       product.createdBy,
       product.deviceId,

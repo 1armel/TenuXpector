@@ -36,6 +36,30 @@ export {
 } from './alert-engine';
 export { rapportJournalier } from './reporting';
 export {
+  BASE_SELLING_UNIT_FACTOR_MILLI,
+  SELLER_HIDDEN_PRODUCT_FIELDS,
+  normalizeSearchText,
+  buildSearchNormalized,
+  matchCatalogSearch,
+  generateInternalCode,
+  resolveInternalCode,
+  validateFloorVsReference,
+  validateMinimalProductCreate,
+  buildBaseSellingUnit,
+  projectProductForRole,
+  type CatalogRole,
+  type CatalogErrorCode,
+  type CatalogError,
+  type MinimalProductInput,
+  type ValidatedMinimalProduct,
+  type BaseSellingUnitDraft,
+  type CatalogSearchHaystack,
+  type CatalogSearchOptions,
+  type CatalogProductView,
+  type SellerHiddenProductField,
+} from './catalog/index';
+
+export {
   ok,
   err,
   type Result,

@@ -10,6 +10,7 @@ import { insertProductRow, insertSellingUnitRow } from '../catalog/product';
 import { createPinMaterial } from '../identity/pin';
 import { DOCUMENTED_SETTING_DEFAULTS } from '../settings/defaults';
 import { BASE_UNIT_CONVERSION_FACTOR } from '../types';
+import { buildSearchNormalized } from '@tenu/domain';
 
 export const DEMO_PRODUCT_COUNT = 200;
 export const DEMO_DEVICE_ID = 'demo-device-seed';
@@ -203,13 +204,15 @@ export function seedDemoDatabase(db: EncryptedDatabase): SeedResult {
       const categoryId = categoryIds[(index - 1) % categoryIds.length];
       if (categoryId === undefined) throw new Error('category missing');
 
+      const productName = index === 1 ? 'Écrou hexagonal demo' : `Article demo ${String(index)}`;
+      const internalCode = `SKU-${String(index).padStart(4, '0')}`;
       insertProductRow(
         db,
         {
           id: productId,
           tenantId,
-          internalCode: `SKU-${String(index).padStart(4, '0')}`,
-          name: `Article demo ${String(index)}`,
+          internalCode,
+          name: productName,
           baseUnit: 'piece',
           averagePurchaseCost: referencePrice * 800,
           referencePrice,
@@ -217,6 +220,12 @@ export function seedDemoDatabase(db: EncryptedDatabase): SeedResult {
           categoryId,
           createdBy: proprietaireId,
           deviceId: DEMO_DEVICE_ID,
+          searchNormalized: buildSearchNormalized({
+            name: productName,
+            altNames: [],
+            internalCode,
+            active: true,
+          }),
         },
         db.nowIso(),
       );

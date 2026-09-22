@@ -11,6 +11,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@tenu/domain": "workspace:*",
     "better-sqlite3-multiple-ciphers": "^13.0.3",
     "zod": "^4.6.5"
   }

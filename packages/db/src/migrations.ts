@@ -226,7 +226,35 @@ const migrationFoundation: Migration = {
   },
 };
 
-export const MIGRATIONS: readonly Migration[] = [migrationProbeEntries, migrationFoundation];
+/** NFR3.1 / BR3.4 — normalized search blob + index for catalog lookup. */
+const migrationCatalogSearch: Migration = {
+  version: 3,
+  name: 'catalog-search-normalized',
+  up(db) {
+    db.exec(`
+      ALTER TABLE products ADD COLUMN search_normalized TEXT NOT NULL DEFAULT '';
+      CREATE INDEX products_tenant_search_idx ON products (tenant_id, search_normalized);
+      UPDATE products SET search_normalized = lower(
+        coalesce(name, '') || ' ' ||
+        coalesce(internal_code, '') || ' ' ||
+        coalesce(barcode, '') || ' ' ||
+        coalesce(alt_names, '')
+      );
+    `);
+  },
+  down(db) {
+    db.exec(`
+      DROP INDEX IF EXISTS products_tenant_search_idx;
+      ALTER TABLE products DROP COLUMN search_normalized;
+    `);
+  },
+};
+
+export const MIGRATIONS: readonly Migration[] = [
+  migrationProbeEntries,
+  migrationFoundation,
+  migrationCatalogSearch,
+];
 
 export const LATEST_SCHEMA_VERSION = MIGRATIONS.reduce(
   (highest, migration) => Math.max(highest, migration.version),

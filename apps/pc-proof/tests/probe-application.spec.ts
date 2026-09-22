@@ -6,7 +6,10 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { ProbeApplication } from '../src/main/probe-application';
-import { UnencryptedDatabaseError } from '../src/main/database/database';
+import {
+  InvalidEncryptionKeyError,
+  UnencryptedDatabaseError,
+} from '../src/main/database/database';
 import {
   DEVELOPMENT_FALLBACK_KEY,
   ENCRYPTION_KEY_ENV_VAR,
@@ -166,6 +169,28 @@ describe('ProbeApplication', () => {
     }
   });
 
+  it('mappe une clé invalide en DATABASE_UNAVAILABLE', async () => {
+    const app = new ProbeApplication({
+      databasePath: dbPath(),
+      env: { [ENCRYPTION_KEY_ENV_VAR]: DEVELOPMENT_FALLBACK_KEY },
+      openDatabase: () => {
+        throw new InvalidEncryptionKeyError('/tmp/x.db');
+      },
+    });
+    await expect(app.openDatabase()).rejects.toMatchObject({ code: 'DATABASE_UNAVAILABLE' });
+  });
+
+  it('mappe une erreur générique d’ouverture en DATABASE_FAILED', async () => {
+    const app = new ProbeApplication({
+      databasePath: dbPath(),
+      env: { [ENCRYPTION_KEY_ENV_VAR]: DEVELOPMENT_FALLBACK_KEY },
+      openDatabase: () => {
+        throw new Error('disk vanished');
+      },
+    });
+    await expect(app.openDatabase()).rejects.toMatchObject({ code: 'DATABASE_FAILED' });
+  });
+
   it('mappe une erreur d’écriture en DATABASE_FAILED', async () => {
     const app = new ProbeApplication({
       databasePath: dbPath(),
@@ -190,5 +215,136 @@ describe('ProbeApplication', () => {
     } catch (error) {
       expect(error).toMatchObject({ code: 'DATABASE_FAILED' });
     }
+  });
+});
+
+describe('ProbeApplication catalog C1 [FR3.1 FR3.2 BR3.17]', () => {
+  it('seeds demo session and searches accented product', async () => {
+    const app = new ProbeApplication({
+      databasePath: dbPath(),
+      env: { [ENCRYPTION_KEY_ENV_VAR]: DEVELOPMENT_FALLBACK_KEY },
+    });
+    const opened = await app.openDatabase();
+    expect(opened.demoSession).not.toBeNull();
+    const session = opened.demoSession;
+    if (session === null) throw new Error('demoSession required');
+
+    const search = await app.catalogSearch({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.gerantId,
+        deviceId: 'test',
+        role: 'gerant',
+      },
+      query: 'ecrou',
+      limit: 10,
+    });
+    expect(search.items.length).toBeGreaterThan(0);
+    expect(search.items[0]?.name.toLowerCase()).toContain('écrou');
+
+    const product = await app.catalogGetProduct({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.vendeurId,
+        deviceId: 'test',
+        role: 'vendeur',
+      },
+      productId: search.items[0]?.id ?? '',
+    });
+    expect(product.product).not.toBeNull();
+    expect(product.product && 'averagePurchaseCost' in product.product).toBe(false);
+
+    const saved = await app.catalogSaveProduct({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.gerantId,
+        deviceId: 'test',
+        role: 'gerant',
+      },
+      mode: 'create',
+      fields: {
+        designation: 'Pince coupante',
+        baseUnit: 'piece',
+        referencePrice: 3500,
+        floorPrice: 3000,
+      },
+    });
+    expect(saved.internalCode).toMatch(/^SKU-/);
+
+    await expect(
+      app.catalogSaveProduct({
+        session: {
+          tenantId: session.tenantId,
+          actorUserId: session.vendeurId,
+          deviceId: 'test',
+          role: 'vendeur',
+        },
+        mode: 'create',
+        fields: {
+          designation: 'Interdit',
+          baseUnit: 'piece',
+          referencePrice: 10,
+          floorPrice: 5,
+        },
+      }),
+    ).rejects.toMatchObject({ code: 'FORBIDDEN_ROLE' });
+
+    await expect(
+      app.catalogSaveProduct({
+        session: {
+          tenantId: session.tenantId,
+          actorUserId: session.gerantId,
+          deviceId: 'test',
+          role: 'gerant',
+        },
+        mode: 'create',
+        fields: {
+          designation: 'Bad',
+          baseUnit: 'piece',
+          referencePrice: 10,
+          floorPrice: 50,
+        },
+      }),
+    ).rejects.toMatchObject({ code: 'VALIDATION_FAILED' });
+
+    await expect(
+      app.catalogGetProduct({
+        session: {
+          tenantId: session.tenantId,
+          actorUserId: session.gerantId,
+          deviceId: 'test',
+          role: 'gerant',
+        },
+        productId: '01900000-0000-7000-8000-000000000099',
+      }),
+    ).resolves.toEqual({ product: null });
+
+    const asOwner = await app.catalogGetProduct({
+      session: {
+        tenantId: session.tenantId,
+        actorUserId: session.proprietaireId,
+        deviceId: 'test',
+        role: 'proprietaire',
+      },
+      productId: search.items[0]?.id ?? '',
+    });
+    expect(asOwner.product && 'averagePurchaseCost' in asOwner.product).toBe(true);
+
+    const reopened = await app.openDatabase();
+    expect(reopened.demoSession?.tenantId).toBe(session.tenantId);
+
+    app.close();
+    await expect(
+      app.catalogSearch({
+        session: {
+          tenantId: session.tenantId,
+          actorUserId: session.gerantId,
+          deviceId: 'test',
+          role: 'gerant',
+        },
+        query: 'x',
+        limit: 5,
+      }),
+    ).rejects.toMatchObject({ code: 'DATABASE_UNAVAILABLE' });
   });
 });
