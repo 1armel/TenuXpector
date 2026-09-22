@@ -27,8 +27,10 @@ export default defineConfig({
     },
   },
   preload: {
+    // Sandboxed preload cannot `require()` arbitrary node_modules. Bundle Zod
+    // into the preload script so `window.tenu` is exposed (contextBridge).
     // eslint-disable-next-line @typescript-eslint/no-deprecated -- voir ADR 003
-    plugins: [externalizeDepsPlugin({ exclude: ['@tenu/db'] })],
+    plugins: [externalizeDepsPlugin({ exclude: ['zod'] })],
     build: {
       lib: {
         entry: resolve('src/preload/preload.ts'),

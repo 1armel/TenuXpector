@@ -14587,6 +14587,13 @@ function App() {
   async function openDatabase() {
     setBusy(true);
     try {
+      if (window.tenu === void 0) {
+        setStatus({
+          tone: "error",
+          text: "Pont IPC indisponible (window.tenu). Relancez pnpm start."
+        });
+        return;
+      }
       const result = await window.tenu.openDatabase({});
       if (!result.ok) {
         setStatus({ tone: "error", text: `${result.code} — ${result.message}` });
@@ -14607,6 +14614,9 @@ function App() {
         tone: "ok",
         text: `Base ouverte (${result.value.journalMode}, schéma v${String(result.value.schemaVersion)})`
       });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      setStatus({ tone: "error", text: `Échec ouverture base — ${message}` });
     } finally {
       setBusy(false);
     }
