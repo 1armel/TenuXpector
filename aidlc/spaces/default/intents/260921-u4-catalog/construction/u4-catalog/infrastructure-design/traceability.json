@@ -1,0 +1,40 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u4-catalog",
+  "summary_confirmed": true,
+  "upstream_ids": [
+    "NFR3.1",
+    "NFR3.2",
+    "NFR3.3",
+    "NFR3.4",
+    "NFR3.5"
+  ],
+  "coverage": [
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "infrastructure-specification.md: CatalogSearchIndex in SQLite + monitoring search.latency_ms"
+    },
+    {
+      "id": "NFR3.2",
+      "status": "OK",
+      "target": "cicd-pipeline.md: domain tests + ENF-16 chrono gate in recette; local Electron deploy"
+    },
+    {
+      "id": "NFR3.3",
+      "status": "OK",
+      "target": "infrastructure-specification.md: LocalEncryptedSqlite; cicd-pipeline.md: secrets scan"
+    },
+    {
+      "id": "NFR3.4",
+      "status": "OK",
+      "target": "monitoring-design.md: FORBIDDEN_ROLE / audit; no cloud log fields for costs"
+    },
+    {
+      "id": "NFR3.5",
+      "status": "OK",
+      "target": "infrastructure-specification.md: TextRecognitionPort on-device; cicd: no OCR cloud secrets"
+    }
+  ],
+  "notes": "Mapped from nfr-design NFR3.x (nfr-requirements skipped). Local-only infra per Q1-A/Q2-A."
+}

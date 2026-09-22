@@ -1,0 +1,40 @@
+{
+  "stage": "nfr-design",
+  "unit": "u4-catalog",
+  "summary_confirmed": true,
+  "upstream_ids": [
+    "NFR3.1",
+    "NFR3.2",
+    "NFR3.3",
+    "NFR3.4",
+    "NFR3.5"
+  ],
+  "coverage": [
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "performance-design.md: index SQLite + debounce + ProductSummary limit (ENF-02)"
+    },
+    {
+      "id": "NFR3.2",
+      "status": "OK",
+      "target": "performance-design.md: saisie série sans retour liste (ENF-16)"
+    },
+    {
+      "id": "NFR3.3",
+      "status": "OK",
+      "target": "security-design.md: SQLCipher + Zod IPC + logs sans secrets (ENF-08)"
+    },
+    {
+      "id": "NFR3.4",
+      "status": "OK",
+      "target": "security-design.md: SensitiveDataGuard + IPC + RoleGate (CT-09 / BR3.17)"
+    },
+    {
+      "id": "NFR3.5",
+      "status": "OK",
+      "target": "security-design.md: OCR on-device défaut CR-02 / BR3.8"
+    }
+  ],
+  "notes": "nfr-requirements skipped; NFR3.1–NFR3.5 derived from ENF-02/08/16, CT-09, CR-02 for ui unit produces (performance, security, logical-components only)."
+}

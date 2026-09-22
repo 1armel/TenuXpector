@@ -2436,3 +2436,316 @@
 **Source Baseline**: sha256:9470dd3b9578ca9a7d8af74d075dc0a2d81f564f57db83c965a11ca55bd5773a
 
 ---
+
+## Human Turn
+**Timestamp**: 2026-09-21T10:44:15Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-21T10:44:50Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log decision --stage build-and-test --checkpoint summary-confirmation --session 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25 --questions-file aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md --decision Does this all look correct before I generate the artifact? --options Looks correct,Request changes
+**Error**: Summary confirmation questions file does not exist: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:45:00Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+**Context**: construction > build-and-test > build-and-test-questions.md
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-21T10:45:00Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log decision --stage build-and-test --checkpoint summary-confirmation --session 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25 --questions-file aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md --decision Does this all look correct before I generate the artifact? --options Looks correct,Request changes
+**Error**: Summary confirmation section in aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md must contain exactly one `[Answer]:` line with a blank value before this command runs.
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-21T10:45:09Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+**Context**: construction > build-and-test > build-and-test-questions.md
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-21T10:45:09Z
+**Event**: DECISION_RECORDED
+**Stage**: build-and-test
+**Decision**: Does this all look correct before I generate the artifact?
+**Options**: Looks correct,Request changes
+**Checkpoint**: Consolidated Summary Confirmation
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-21T10:45:15Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+**Context**: construction > build-and-test > build-and-test-questions.md
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-21T10:45:16Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log answer --stage build-and-test --checkpoint summary-confirmation --session 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25 --questions-file aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md --details Looks correct
+**Error**: Cannot record the summary choice because no human reply has arrived after this question, or that turn was already used by another decision. End the turn, wait for the human's choice, then try again.
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T10:47:27Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Summary Confirmation Recorded
+**Timestamp**: 2026-09-21T10:47:58Z
+**Event**: SUMMARY_CONFIRMATION_RECORDED
+**Stage**: build-and-test
+**Details**: Looks correct
+**Checkpoint**: Consolidated Summary Confirmation
+**Questions File**: aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-questions.md
+**Questions SHA-256**: 8c2e4d2011b99e5184565a44e0261048cac2f2131327c0604f7c844f2457792d
+**Hash Scope**: confirmed-content-v1
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:48:13Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-instructions.md
+**Context**: construction > build-and-test > build-instructions.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:48:19Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/integration-test-instructions.md
+**Context**: construction > build-and-test > integration-test-instructions.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:48:21Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/performance-test-instructions.md
+**Context**: construction > build-and-test > performance-test-instructions.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:48:21Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/security-test-instructions.md
+**Context**: construction > build-and-test > security-test-instructions.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:49:35Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/test-results.md
+**Context**: construction > build-and-test > test-results.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:49:42Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/build-and-test-summary.md
+**Context**: construction > build-and-test > build-and-test-summary.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T10:49:42Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/cross-unit-traceability.md
+**Context**: construction > build-and-test > cross-unit-traceability.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Session Compacted
+**Timestamp**: 2026-09-21T10:50:04Z
+**Event**: SESSION_COMPACTED
+**Current Stage**: build-and-test
+**State Validity**: valid
+
+---
+
+## Error Logged
+**Timestamp**: 2026-09-21T10:51:52Z
+**Event**: ERROR_LOGGED
+**Tool**: aidlc-log
+**Command**: aidlc-log engine log decision --help
+**Error**: --help expects a value, got end of arguments.
+
+---
+
+## Decision Recorded
+**Timestamp**: 2026-09-21T10:52:22Z
+**Event**: DECISION_RECORDED
+**Stage**: build-and-test
+**Decision**: Anything to add for next time?
+**Options**: Nothing to add,Add a note
+
+---
+
+## Artifact Updated
+**Timestamp**: 2026-09-21T10:52:24Z
+**Event**: ARTIFACT_UPDATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/memory.md
+**Context**: construction > build-and-test > memory.md
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:25:41Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Question Answered
+**Timestamp**: 2026-09-21T11:25:59Z
+**Event**: QUESTION_ANSWERED
+**Stage**: build-and-test
+**Details**: Nothing to add
+
+---
+
+## Artifact Created
+**Timestamp**: 2026-09-21T11:26:03Z
+**Event**: ARTIFACT_CREATED
+**Tool**: Write
+**File**: <project-dir>/aidlc/spaces/default/intents/260916-caisse-hors-ligne-3/construction/build-and-test/learnings-selections.json
+**Context**: construction > build-and-test > learnings-selections.json
+**Summary Authorization Id**: 76a8400457bb36cf2aba1be4bcf3d11f799748c0a15b263f72e86085dd43a660
+
+---
+
+## Stage Awaiting Approval
+**Timestamp**: 2026-09-21T11:26:11Z
+**Event**: STAGE_AWAITING_APPROVAL
+**Stage**: build-and-test
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:27:48Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Gate Approved
+**Timestamp**: 2026-09-21T11:28:00Z
+**Event**: GATE_APPROVED
+**Stage**: build-and-test
+**User Input**: Approve
+
+---
+
+## Stage Completion
+**Timestamp**: 2026-09-21T11:28:00Z
+**Event**: STAGE_COMPLETED
+**Stage**: build-and-test
+**Validation Basis**: {"graphContract":"sha256:96b8f13dd5dc4ed374a013c67c59513754aa4e6f9c23c96a9953c7cb00d73f5c","inputs":[{"artifact":"code-generation-plan","contentHash":"sha256:bed148bd305e9a26089f53681d5d36503da6788de06df3b0e330157df51c9a9f","instanceCount":14,"presentCount":3,"producer":"code-generation","required":true,"structureHash":"sha256:2027f1da7d54db48a31eb0d5893379e1c1f343907ef798ffd00c91495addec65"},{"artifact":"code-summary","contentHash":"sha256:248cf7aba401ea823a121e8c710a995b78f2975cf0fdfd2243888b33d91f0f56","instanceCount":14,"presentCount":3,"producer":"code-generation","required":true,"structureHash":"sha256:03bf894987eb1c6bb8b10c3e5da1837cdc43877f4b350c5c506498a6e78ec57d"},{"artifact":"unit-test-instructions","contentHash":"sha256:a768d6245e76be53d659ed640e11e95f9d643dc442bf936821dedbe493307163","instanceCount":14,"presentCount":3,"producer":"code-generation","required":true,"structureHash":"sha256:3d5350dd79bd16b9a5a9cbc0bafa7dfaf011364fbc6e700361f38d6a312879a7"}],"outputs":[{"artifact":"build-and-test-summary","contentHash":"sha256:a6f4a2d753005bb7e013e6824791f6a9ac1d6a9ce391b2b69e623ac6be5a9e7b","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:29b42563874859d7a39012b1b979777119e2a7eaa0e23515be1b45377d4614a3"},{"artifact":"build-instructions","contentHash":"sha256:42bca4c25721832cca4ba42c8c9564e96b445d708d6b375758ce4626d5ce2454","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:627c41ed95733bad04a2b1cc8b9da457244522956381b91179a7db72481224d7"},{"artifact":"build-test-results","contentHash":"sha256:8e471cd1f570c179fc3866431a4a5233cdff2ac941d62a5cbe8cc0f1bea0f3ce","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:247dfd79e3790f12c2541b6c5add109102795bda2fb95e7995e7f66cc1622b9f"},{"artifact":"cross-unit-traceability","contentHash":"sha256:2833585a1d3e4baa59595e1ee335aaf5b217d93e77d68cc7a488c47b8ea3758a","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:f16ee643072d24f445b6fa80f4253c888680f82a296357c8bc5e8bddc7e32a6f"},{"artifact":"integration-test-instructions","contentHash":"sha256:1a4c1f647924ccfdde8d9b69b106eab433e5135ffce983b0a998533a8cc50050","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:5a4477c6fea05aae441abaf463023380c1b0f0c330b50337ce76bf527ef372b2"},{"artifact":"performance-test-instructions","contentHash":"sha256:b6656658086b2755acdb3f573c341652d0fc0d77e9d022affcbafdb9379f76fa","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:95932f319d07854a46c0c3bba3498c5717b117f370f7d44f6d32cba4441b7bb4"},{"artifact":"security-test-instructions","contentHash":"sha256:2303626f5188da04a948dad8b1d372264557555780c250a131b3cd8f862932ea","instanceCount":1,"presentCount":1,"producer":"build-and-test","required":true,"structureHash":"sha256:6587c189fd021215f6f49956dbb0f68ac42a0ab35963c14f9b74b74e6cf89743"}],"projectType":"greenfield","schema":3}
+**Details**: Stage Build and Test approved by gate
+
+---
+
+## Phase Completion
+**Timestamp**: 2026-09-21T11:28:00Z
+**Event**: PHASE_COMPLETED
+**From phase**: construction
+**To phase**: (end)
+**Stages completed**: 11
+
+---
+
+## Phase Verification
+**Timestamp**: 2026-09-21T11:28:00Z
+**Event**: PHASE_VERIFIED
+**Phase boundary**: construction → end
+
+---
+
+## Workflow Completion
+**Timestamp**: 2026-09-21T11:28:00Z
+**Event**: WORKFLOW_COMPLETED
+**Scope**: spec-driven-dual-target-ops
+**Details**: Scope: spec-driven-dual-target-ops, 11 stages completed
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:29:32Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:30:52Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:32:15Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:37:39Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---
+
+## Human Turn
+**Timestamp**: 2026-09-21T11:40:25Z
+**Event**: HUMAN_TURN
+**Session**: 77c9b10a-aa4c-4b47-bb92-1b975b1fdc25
+
+---

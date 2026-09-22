@@ -1,0 +1,24 @@
+{
+  "stage": "units-generation",
+  "upstream_ids": [
+    "FR3.1",
+    "FR3.2",
+    "FR3.3",
+    "FR3.4",
+    "FR3.5",
+    "FR3.6",
+    "FR3.7",
+    "FR3.8"
+  ],
+  "coverage": [
+    { "id": "FR3.1", "status": "OK", "target": "U4" },
+    { "id": "FR3.2", "status": "OK", "target": "U4" },
+    { "id": "FR3.3", "status": "OK", "target": "U4" },
+    { "id": "FR3.4", "status": "OK", "target": "U4" },
+    { "id": "FR3.5", "status": "OK", "target": "U4" },
+    { "id": "FR3.6", "status": "OK", "target": "U4" },
+    { "id": "FR3.7", "status": "OK", "target": "U4" },
+    { "id": "FR3.8", "status": "OK", "target": "U4" }
+  ],
+  "notes": "requirements-analysis skipped; FR3.1–FR3.8 from scope/domain-design. Single unit u4-catalog (U4)."
+}

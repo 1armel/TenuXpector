@@ -2,8 +2,9 @@
 const electron = require("electron");
 const node_path = require("node:path");
 const zod = require("zod");
-const db = require("@tenu/db");
+const node_crypto = require("node:crypto");
 const node_fs = require("node:fs");
+const SqliteDatabase = require("better-sqlite3-multiple-ciphers");
 const node_child_process = require("node:child_process");
 const node_os = require("node:os");
 const MAX_PAYLOAD_BYTES = 64 * 1024;
@@ -143,6 +144,523 @@ function registerIpcHandlers(registrar, backend) {
     registrar.handle(channel, (_event, payload) => dispatchIpcRequest(channel, payload, backend));
   }
 }
+const MAX_TIMESTAMP_MS = 281474976710655;
+const COUNTER_MAX = 4095;
+function toHex(bytes) {
+  let hex = "";
+  for (const byte of bytes) hex += byte.toString(16).padStart(2, "0");
+  return hex;
+}
+function format(bytes) {
+  const hex = toHex(bytes);
+  return [
+    hex.slice(0, 8),
+    hex.slice(8, 12),
+    hex.slice(12, 16),
+    hex.slice(16, 20),
+    hex.slice(20, 32)
+  ].join("-");
+}
+function composeUuidV7(timestampMs, counter, randomTail) {
+  if (!Number.isInteger(timestampMs) || timestampMs < 0 || timestampMs > MAX_TIMESTAMP_MS) {
+    throw new RangeError(`Timestamp outside UUID v7 48-bit range: ${String(timestampMs)}`);
+  }
+  if (!Number.isInteger(counter) || counter < 0 || counter > COUNTER_MAX) {
+    throw new RangeError(`Counter outside rand_a 12-bit range: ${String(counter)}`);
+  }
+  if (randomTail.length !== 8) {
+    throw new RangeError(`Expected 8 random bytes, got ${String(randomTail.length)}`);
+  }
+  const bytes = new Uint8Array(16);
+  bytes[0] = Math.floor(timestampMs / 2 ** 40) & 255;
+  bytes[1] = Math.floor(timestampMs / 2 ** 32) & 255;
+  bytes[2] = Math.floor(timestampMs / 2 ** 24) & 255;
+  bytes[3] = Math.floor(timestampMs / 2 ** 16) & 255;
+  bytes[4] = Math.floor(timestampMs / 2 ** 8) & 255;
+  bytes[5] = timestampMs & 255;
+  bytes[6] = 112 | counter >>> 8 & 15;
+  bytes[7] = counter & 255;
+  bytes[8] = 128 | (randomTail[0] ?? 0) & 63;
+  for (let index = 1; index < 8; index += 1) {
+    bytes[8 + index] = randomTail[index] ?? 0;
+  }
+  return format(bytes);
+}
+function createUuidV7Generator(sources) {
+  let lastTimestampMs = -1;
+  let counter = 0;
+  return {
+    next() {
+      let timestampMs = Math.floor(sources.now());
+      if (timestampMs > lastTimestampMs) {
+        lastTimestampMs = timestampMs;
+        counter = 0;
+      } else {
+        timestampMs = lastTimestampMs;
+        counter += 1;
+        if (counter > COUNTER_MAX) {
+          lastTimestampMs += 1;
+          timestampMs = lastTimestampMs;
+          counter = 0;
+        }
+      }
+      return composeUuidV7(timestampMs, counter, sources.randomBytes(8));
+    }
+  };
+}
+const migrationProbeEntries = {
+  version: 1,
+  name: "create-probe-entries",
+  up(db) {
+    db.exec(`
+      CREATE TABLE probe_entries (
+        id          TEXT    NOT NULL PRIMARY KEY,
+        label       TEXT    NOT NULL,
+        sequence    INTEGER NOT NULL,
+        recorded_at TEXT    NOT NULL
+      );
+      CREATE INDEX probe_entries_sequence_idx ON probe_entries (sequence);
+    `);
+  },
+  down(db) {
+    db.exec(`
+      DROP INDEX IF EXISTS probe_entries_sequence_idx;
+      DROP TABLE IF EXISTS probe_entries;
+    `);
+  }
+};
+const migrationFoundation = {
+  version: 2,
+  name: "create-foundation-schema",
+  up(db) {
+    db.exec(`
+      CREATE TABLE tenants (
+        id          TEXT NOT NULL PRIMARY KEY,
+        name        TEXT NOT NULL,
+        created_at  TEXT NOT NULL
+      );
+
+      CREATE TABLE stores (
+        id          TEXT NOT NULL PRIMARY KEY,
+        tenant_id   TEXT NOT NULL REFERENCES tenants(id),
+        name        TEXT NOT NULL,
+        created_at  TEXT NOT NULL,
+        created_by  TEXT NOT NULL,
+        device_id   TEXT NOT NULL
+      );
+      CREATE INDEX stores_tenant_idx ON stores (tenant_id);
+
+      CREATE TABLE users (
+        id                TEXT    NOT NULL PRIMARY KEY,
+        tenant_id         TEXT    NOT NULL REFERENCES tenants(id),
+        name              TEXT    NOT NULL,
+        phone             TEXT,
+        pin_hash          TEXT    NOT NULL,
+        pin_salt          TEXT    NOT NULL,
+        pin_iterations    INTEGER NOT NULL CHECK (pin_iterations >= 310000),
+        role              TEXT    NOT NULL CHECK (role IN ('vendeur', 'gerant', 'proprietaire')),
+        allowed_store_ids TEXT    NOT NULL,
+        active            INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
+        last_activity_at  TEXT,
+        created_at        TEXT    NOT NULL,
+        created_by        TEXT    NOT NULL,
+        device_id         TEXT    NOT NULL
+      );
+      CREATE INDEX users_tenant_idx ON users (tenant_id);
+      CREATE UNIQUE INDEX users_one_active_gerant_idx
+        ON users (tenant_id)
+        WHERE role = 'gerant' AND active = 1;
+
+      CREATE TABLE pin_attempts (
+        id           TEXT    NOT NULL PRIMARY KEY,
+        tenant_id    TEXT    NOT NULL REFERENCES tenants(id),
+        user_id      TEXT    NOT NULL REFERENCES users(id),
+        register_id  TEXT,
+        attempted_at TEXT    NOT NULL,
+        success      INTEGER NOT NULL CHECK (success IN (0, 1)),
+        device_id    TEXT    NOT NULL
+      );
+      CREATE INDEX pin_attempts_user_time_idx ON pin_attempts (tenant_id, user_id, attempted_at);
+
+      CREATE TRIGGER pin_attempts_no_update
+      BEFORE UPDATE ON pin_attempts
+      BEGIN
+        SELECT RAISE(ABORT, 'pin_attempts is append-only');
+      END;
+
+      CREATE TRIGGER pin_attempts_no_delete
+      BEFORE DELETE ON pin_attempts
+      BEGIN
+        SELECT RAISE(ABORT, 'pin_attempts is append-only');
+      END;
+
+      CREATE TABLE settings (
+        id          TEXT NOT NULL PRIMARY KEY,
+        tenant_id   TEXT NOT NULL REFERENCES tenants(id),
+        store_id    TEXT REFERENCES stores(id),
+        key         TEXT NOT NULL,
+        value       TEXT NOT NULL,
+        created_at  TEXT NOT NULL,
+        created_by  TEXT NOT NULL,
+        device_id   TEXT NOT NULL
+      );
+      CREATE UNIQUE INDEX settings_tenant_store_key_idx
+        ON settings (tenant_id, IFNULL(store_id, ''), key);
+      CREATE INDEX settings_tenant_idx ON settings (tenant_id);
+
+      CREATE TABLE categories (
+        id          TEXT NOT NULL PRIMARY KEY,
+        tenant_id   TEXT NOT NULL REFERENCES tenants(id),
+        name        TEXT NOT NULL,
+        parent_id   TEXT REFERENCES categories(id),
+        created_at  TEXT NOT NULL,
+        created_by  TEXT NOT NULL,
+        device_id   TEXT NOT NULL
+      );
+      CREATE INDEX categories_tenant_idx ON categories (tenant_id);
+
+      CREATE TABLE products (
+        id                     TEXT    NOT NULL PRIMARY KEY,
+        tenant_id              TEXT    NOT NULL REFERENCES tenants(id),
+        internal_code          TEXT    NOT NULL,
+        barcode                TEXT,
+        name                   TEXT    NOT NULL,
+        alt_names              TEXT,
+        category_id            TEXT REFERENCES categories(id),
+        base_unit              TEXT    NOT NULL,
+        average_purchase_cost  INTEGER,
+        reference_price        INTEGER NOT NULL CHECK (reference_price >= 0),
+        floor_price            INTEGER NOT NULL CHECK (floor_price >= 0),
+        stock_alert_threshold  INTEGER,
+        location               TEXT,
+        active                 INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
+        created_at             TEXT    NOT NULL,
+        created_by             TEXT    NOT NULL,
+        device_id              TEXT    NOT NULL,
+        CHECK (floor_price <= reference_price)
+      );
+      CREATE UNIQUE INDEX products_tenant_code_idx ON products (tenant_id, internal_code);
+      CREATE INDEX products_tenant_idx ON products (tenant_id);
+
+      CREATE TABLE selling_units (
+        id                 TEXT    NOT NULL PRIMARY KEY,
+        tenant_id          TEXT    NOT NULL REFERENCES tenants(id),
+        product_id         TEXT    NOT NULL REFERENCES products(id),
+        label              TEXT    NOT NULL,
+        conversion_factor  INTEGER NOT NULL CHECK (conversion_factor >= 1),
+        price              INTEGER NOT NULL CHECK (price >= 0),
+        floor_price        INTEGER NOT NULL CHECK (floor_price >= 0),
+        created_at         TEXT    NOT NULL,
+        created_by         TEXT    NOT NULL,
+        device_id          TEXT    NOT NULL,
+        CHECK (floor_price <= price)
+      );
+      CREATE INDEX selling_units_product_idx ON selling_units (tenant_id, product_id);
+
+      CREATE TABLE audit_log (
+        id           TEXT NOT NULL PRIMARY KEY,
+        tenant_id    TEXT NOT NULL REFERENCES tenants(id),
+        user_id      TEXT NOT NULL REFERENCES users(id),
+        session_id   TEXT,
+        action       TEXT NOT NULL,
+        entity_kind  TEXT NOT NULL,
+        entity_id    TEXT NOT NULL,
+        before_json  TEXT,
+        after_json   TEXT,
+        device_id    TEXT NOT NULL,
+        recorded_at  TEXT NOT NULL
+      );
+      CREATE INDEX audit_log_tenant_idx ON audit_log (tenant_id, recorded_at);
+
+      CREATE TRIGGER audit_log_no_update
+      BEFORE UPDATE ON audit_log
+      BEGIN
+        SELECT RAISE(ABORT, 'audit_log is append-only');
+      END;
+
+      CREATE TRIGGER audit_log_no_delete
+      BEFORE DELETE ON audit_log
+      BEGIN
+        SELECT RAISE(ABORT, 'audit_log is append-only');
+      END;
+
+      CREATE TABLE outbox (
+        id              TEXT    NOT NULL PRIMARY KEY,
+        tenant_id       TEXT    NOT NULL REFERENCES tenants(id),
+        event_kind      TEXT    NOT NULL,
+        entity_id       TEXT    NOT NULL,
+        payload         TEXT    NOT NULL,
+        created_at      TEXT    NOT NULL,
+        local_sequence  INTEGER NOT NULL,
+        UNIQUE (tenant_id, local_sequence)
+      );
+      CREATE INDEX outbox_tenant_seq_idx ON outbox (tenant_id, local_sequence);
+    `);
+  },
+  down(db) {
+    db.exec(`
+      DROP TABLE IF EXISTS outbox;
+      DROP TRIGGER IF EXISTS audit_log_no_delete;
+      DROP TRIGGER IF EXISTS audit_log_no_update;
+      DROP TABLE IF EXISTS audit_log;
+      DROP TABLE IF EXISTS selling_units;
+      DROP TABLE IF EXISTS products;
+      DROP TABLE IF EXISTS categories;
+      DROP TABLE IF EXISTS settings;
+      DROP TRIGGER IF EXISTS pin_attempts_no_delete;
+      DROP TRIGGER IF EXISTS pin_attempts_no_update;
+      DROP TABLE IF EXISTS pin_attempts;
+      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS stores;
+      DROP TABLE IF EXISTS tenants;
+    `);
+  }
+};
+const MIGRATIONS = [migrationProbeEntries, migrationFoundation];
+MIGRATIONS.reduce(
+  (highest, migration) => Math.max(highest, migration.version),
+  0
+);
+const CREATE_MIGRATIONS_TABLE_SQL = `
+  CREATE TABLE IF NOT EXISTS schema_migrations (
+    version    INTEGER NOT NULL PRIMARY KEY,
+    name       TEXT    NOT NULL,
+    applied_at TEXT    NOT NULL
+  );
+`;
+function pendingMigrations(currentVersion) {
+  return MIGRATIONS.filter((migration) => migration.version > currentVersion).sort(
+    (left, right) => left.version - right.version
+  );
+}
+function migrationsToRevert(currentVersion, targetVersion) {
+  if (targetVersion >= currentVersion) return [];
+  return MIGRATIONS.filter(
+    (migration) => migration.version > targetVersion && migration.version <= currentVersion
+  ).sort((left, right) => right.version - left.version);
+}
+const PLAINTEXT_SQLITE_HEADER = `SQLite format 3${String.fromCharCode(0)}`;
+const DEFAULT_CIPHER = "sqlcipher";
+class UnencryptedDatabaseError extends Error {
+  constructor(filePath) {
+    super(
+      `File ${filePath} is a plaintext SQLite database. Refusing to open: the local database must be encrypted at rest (NFR8).`
+    );
+    this.filePath = filePath;
+    this.name = "UnencryptedDatabaseError";
+  }
+  filePath;
+}
+class InvalidEncryptionKeyError extends Error {
+  constructor(filePath) {
+    super(
+      `Cannot decrypt ${filePath}: wrong encryption key, or unreadable file.`
+    );
+    this.filePath = filePath;
+    this.name = "InvalidEncryptionKeyError";
+  }
+  filePath;
+}
+class DatabaseIntegrityError extends Error {
+  constructor(details) {
+    super(`Integrity check failed: ${details}`);
+    this.details = details;
+    this.name = "DatabaseIntegrityError";
+  }
+  details;
+}
+function assertFileIsNotPlaintextSqlite(filePath) {
+  if (!node_fs.existsSync(filePath)) return;
+  if (node_fs.statSync(filePath).size === 0) return;
+  const header = node_fs.readFileSync(filePath).subarray(0, 16).toString("latin1");
+  if (header === PLAINTEXT_SQLITE_HEADER) throw new UnencryptedDatabaseError(filePath);
+}
+function readSchemaVersion(connection) {
+  const row = connection.prepare("SELECT MAX(version) AS version FROM schema_migrations").get();
+  return row?.version ?? 0;
+}
+class EncryptedDatabase {
+  constructor(connection, filePath, ids, now) {
+    this.filePath = filePath;
+    this.#connection = connection;
+    this.#ids = ids;
+    this.#now = now;
+  }
+  filePath;
+  #connection;
+  #ids;
+  #now;
+  #closed = false;
+  static open(options) {
+    assertFileIsNotPlaintextSqlite(options.filePath);
+    node_fs.mkdirSync(node_path.dirname(options.filePath), { recursive: true });
+    const connection = new SqliteDatabase(options.filePath);
+    try {
+      connection.pragma(`cipher='${options.cipher ?? DEFAULT_CIPHER}'`);
+      connection.pragma(`key='${options.encryptionKey.replace(/'/g, "''")}'`);
+      connection.prepare("SELECT count(*) AS n FROM sqlite_schema").get();
+    } catch (error) {
+      connection.close();
+      if (error instanceof Error && /SQLITE_NOTADB|file is not a database/i.test(error.message)) {
+        throw new InvalidEncryptionKeyError(options.filePath);
+      }
+      throw error;
+    }
+    connection.pragma("journal_mode = WAL");
+    connection.pragma("synchronous = FULL");
+    connection.pragma("foreign_keys = ON");
+    connection.pragma("busy_timeout = 5000");
+    const now = options.now ?? (() => Date.now());
+    const randomBytes = options.randomBytes ?? ((size) => new Uint8Array(node_crypto.randomBytes(size)));
+    const database = new EncryptedDatabase(
+      connection,
+      options.filePath,
+      createUuidV7Generator({ now, randomBytes }),
+      now
+    );
+    database.migrateUp();
+    return database;
+  }
+  /** Package services need the raw connection; callers outside @tenu/db should not. */
+  get connection() {
+    return this.#connection;
+  }
+  get journalMode() {
+    const rows = this.#connection.pragma("journal_mode");
+    return rows[0]?.journal_mode ?? "unknown";
+  }
+  get synchronousMode() {
+    const rows = this.#connection.pragma("synchronous");
+    return rows[0]?.synchronous ?? -1;
+  }
+  get schemaVersion() {
+    return readSchemaVersion(this.#connection);
+  }
+  get isClosed() {
+    return this.#closed;
+  }
+  nextId() {
+    return this.#ids.next();
+  }
+  nowMs() {
+    return this.#now();
+  }
+  nowIso() {
+    return new Date(this.#now()).toISOString();
+  }
+  migrateUp() {
+    this.#connection.exec(CREATE_MIGRATIONS_TABLE_SQL);
+    let applied = 0;
+    for (const migration of pendingMigrations(readSchemaVersion(this.#connection))) {
+      const run = this.#connection.transaction(() => {
+        migration.up(this.#connection);
+        this.#connection.prepare("INSERT INTO schema_migrations (version, name, applied_at) VALUES (?, ?, ?)").run(migration.version, migration.name, new Date(this.#now()).toISOString());
+      });
+      run();
+      applied += 1;
+    }
+    return applied;
+  }
+  migrateDown(targetVersion) {
+    let reverted = 0;
+    for (const migration of migrationsToRevert(readSchemaVersion(this.#connection), targetVersion)) {
+      const run = this.#connection.transaction(() => {
+        migration.down(this.#connection);
+        this.#connection.prepare("DELETE FROM schema_migrations WHERE version = ?").run(migration.version);
+      });
+      run();
+      reverted += 1;
+    }
+    return reverted;
+  }
+  insertProbeEntry(label) {
+    const entry = {
+      id: this.#ids.next(),
+      label,
+      sequence: this.countProbeEntries() + 1,
+      recordedAt: new Date(this.#now()).toISOString()
+    };
+    this.#connection.prepare("INSERT INTO probe_entries (id, label, sequence, recorded_at) VALUES (?, ?, ?, ?)").run(entry.id, entry.label, entry.sequence, entry.recordedAt);
+    return entry;
+  }
+  insertProbeBatch(labelPrefix, count) {
+    const run = this.#connection.transaction((total) => {
+      for (let index = 0; index < total; index += 1) {
+        this.insertProbeEntry(`${labelPrefix}-${String(index)}`);
+      }
+    });
+    run(count);
+    return count;
+  }
+  countProbeEntries() {
+    const row = this.#connection.prepare("SELECT count(*) AS n FROM probe_entries").get();
+    return row?.n ?? 0;
+  }
+  listProbeEntries() {
+    const rows = this.#connection.prepare("SELECT id, label, sequence, recorded_at FROM probe_entries ORDER BY sequence").all();
+    return rows.map((row) => ({
+      id: row.id,
+      label: row.label,
+      sequence: row.sequence,
+      recordedAt: row.recorded_at
+    }));
+  }
+  assertIntegrity() {
+    const verdict = this.integrityCheck();
+    if (verdict !== "ok") throw new DatabaseIntegrityError(verdict);
+  }
+  integrityCheck() {
+    const rows = this.#connection.pragma("integrity_check");
+    return rows[0]?.integrity_check ?? "unknown";
+  }
+  transaction(work) {
+    return this.#connection.transaction(work)();
+  }
+  close() {
+    if (this.#closed) return;
+    this.#connection.pragma("wal_checkpoint(TRUNCATE)");
+    this.#connection.close();
+    this.#closed = true;
+  }
+}
+function openEncryptedDatabase(options) {
+  return EncryptedDatabase.open(options);
+}
+const ENCRYPTION_KEY_ENV_VAR = "TENU_DATABASE_KEY";
+const ENVIRONMENT_ENV_VAR = "TENU_ENV";
+const DEVELOPMENT_FALLBACK_KEY = "cle-de-developpement-non-secrete";
+class MissingEncryptionKeyError extends Error {
+  constructor() {
+    super(
+      `Missing encryption key: environment variable ${ENCRYPTION_KEY_ENV_VAR} is required in production. No fallback is allowed outside development (NFR8).`
+    );
+    this.name = "MissingEncryptionKeyError";
+  }
+}
+function isProductionEnvironment(env) {
+  return env[ENVIRONMENT_ENV_VAR] === "production";
+}
+function resolveEncryptionKey(env) {
+  const fromEnvironment = env[ENCRYPTION_KEY_ENV_VAR];
+  if (typeof fromEnvironment === "string" && fromEnvironment.length > 0) {
+    return { key: fromEnvironment, source: "environment" };
+  }
+  if (isProductionEnvironment(env)) throw new MissingEncryptionKeyError();
+  return { key: DEVELOPMENT_FALLBACK_KEY, source: "development-fallback" };
+}
+zod.z.number().int().min(0).max(1e4);
+zod.z.literal("FCFA");
+zod.z.enum(["none", "nearest_5", "nearest_10"]);
+zod.z.array(zod.z.enum(["cash", "mobile_money", "card"])).min(1);
+zod.z.string().min(1);
+const SENSITIVE_PRODUCT_FIELDS = [
+  "averagePurchaseCost",
+  "cump",
+  "margin",
+  "cumulativeRevenue",
+  "valuation"
+];
+new Set(SENSITIVE_PRODUCT_FIELDS);
 class PreviewReceiptPrinter {
   target = "preview";
   description = "Aperçu à l'écran (aucun matériel requis)";
@@ -535,8 +1053,8 @@ class ProbeApplication {
     try {
       if (this.#database === void 0 || this.#database.isClosed) {
         const env = this.#options.env ?? process.env;
-        const resolved = db.resolveEncryptionKey(env);
-        const open = this.#options.openDatabase ?? db.openEncryptedDatabase;
+        const resolved = resolveEncryptionKey(env);
+        const open = this.#options.openDatabase ?? openEncryptedDatabase;
         this.#database = open({
           filePath: this.#options.databasePath,
           encryptionKey: resolved.key,
@@ -550,7 +1068,7 @@ class ProbeApplication {
         schemaVersion: this.#database.schemaVersion
       });
     } catch (error) {
-      if (error instanceof db.UnencryptedDatabaseError || error instanceof db.InvalidEncryptionKeyError) {
+      if (error instanceof UnencryptedDatabaseError || error instanceof InvalidEncryptionKeyError) {
         return Promise.reject(new IpcBackendError("DATABASE_UNAVAILABLE", error.message));
       }
       return Promise.reject(

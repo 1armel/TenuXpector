@@ -1,0 +1,33 @@
+{
+  "stage": "functional-design",
+  "unit": "u4-catalog",
+  "summary_confirmed": true,
+  "upstream_ids": [
+    "FR3.1",
+    "FR3.2",
+    "FR3.3",
+    "FR3.4",
+    "FR3.5",
+    "FR3.6",
+    "FR3.7",
+    "FR3.8"
+  ],
+  "coverage": [
+    { "id": "FR3.1", "status": "OK", "target": "BR3.1,BR3.2,BR3.3,BR3.17" },
+    { "id": "FR3.2", "status": "OK", "target": "BR3.4" },
+    { "id": "FR3.3", "status": "OK", "target": "BR3.5" },
+    { "id": "FR3.4", "status": "OK", "target": "BR3.6" },
+    { "id": "FR3.5", "status": "OK", "target": "BR3.7" },
+    { "id": "FR3.6", "status": "OK", "target": "BR3.8" },
+    { "id": "FR3.7", "status": "OK", "target": "BR3.9,BR3.10,BR3.11,BR3.12,BR3.13" },
+    { "id": "FR3.8", "status": "OK", "target": "BR3.14,BR3.15" }
+  ],
+  "reverse": [
+    {
+      "id": "BR3.16",
+      "status": "N/A",
+      "target": "EF-U2-10 / invariant correction — pas un FR3.* isolé ; couvert par WF2"
+    }
+  ],
+  "notes": "requirements-analysis skipped; FR3.1–FR3.8 from scope/story-map. Kind ui: BR3.x live in functional-spec.md (Q2-A), not a separate rules.md."
+}
